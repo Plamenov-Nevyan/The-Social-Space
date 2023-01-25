@@ -11,9 +11,9 @@ const socketIo = require("socket.io")(http, {
 app.use(cors())
 
 socketIo.on('connection', (socket) => {
-    // code here.. 
+    console.log(`${socket.id} has connected`)
     socketIo.on('disconnect', () => {
-        // code here..
+        console.log(`${socket.id} has disconnected`)
     })
 })
 
