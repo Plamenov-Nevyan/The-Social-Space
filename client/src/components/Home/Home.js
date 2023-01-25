@@ -5,9 +5,14 @@ import {useNavigate} from "react-router-dom";
 export function Home(){
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
+    const submitHandler = (e) => {
+       e.preventDefault()
+       localStorage.setItem('username', username)
+       navigate('/chat')
+    }
 
     return (
-        <form className="form-container">
+        <form className="form-container" onSubmit={submitHandler}>
             <h2 className="form-header">Sign up to chat!</h2>
             <label htmlFor="username">Username</label>
             <input 
