@@ -1,0 +1,6 @@
+.container {
+    background-color: purple;
+    margin: 0;
+    display: flex;
+    width: 125%;
+}

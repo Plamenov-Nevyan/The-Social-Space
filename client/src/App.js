@@ -7,12 +7,10 @@ const socket = socketIo.connect('http://localhost:8000')
 
 function App() {
   return (
-  <div>
   <Routes>
     <Route path="/" element={<Home socket={socket}/>} />
     <Route path="/chat" element={<Chat socket={socket} />} />
   </Routes>
-  </div>
   )
 }
 

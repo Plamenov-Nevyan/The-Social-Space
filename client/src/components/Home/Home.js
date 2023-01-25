@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 export function Home(){
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
+    
     const submitHandler = (e) => {
        e.preventDefault()
        localStorage.setItem('username', username)
