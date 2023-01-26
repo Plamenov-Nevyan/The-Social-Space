@@ -1,6 +1,37 @@
 .container {
-    background-color: purple;
+    background-color: sandybrown;
     margin: 0;
-    display: flex;
     width: 125%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    opacity: 0.8;
+}
+
+.leave-btn {
+    padding: 12px 12px;
+    margin: 10px 10px 10px auto;
+    font-size: 20px;
+    background-color: wheat;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+}
+
+.leave-btn:hover {
+    background-color: black;
+    color: wheat;
+}
+
+.header {
+    margin: 20px 0 20px 10px;
+    font-size: 30px;
+    color: darkred;
+    border-left: 3px solid;
+    border-bottom: 1px solid;
+    border-right: 3px solid;
+    padding: 10px;
+    border-radius: 10px;
 }
