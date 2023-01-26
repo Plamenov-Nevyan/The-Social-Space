@@ -2,7 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 
-export function Home(){
+export function Home({socket}){
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     

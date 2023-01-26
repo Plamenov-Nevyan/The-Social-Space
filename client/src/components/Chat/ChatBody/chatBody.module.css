@@ -41,8 +41,7 @@
 }
 
 .message-typing {
-    position: fixed;
-    bottom: 90px;
+     align-self: flex-start;
     font-size: 1em;
     font-style: italic;
     margin-left: 5px ;

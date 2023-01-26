@@ -5,14 +5,14 @@ import {ChatFooter} from "./ChatFooter/ChatFooter";
 import {ChatHeader} from "./ChatHeader/ChatHeader";
 
 
-export function Chat(){
+export function Chat({socket}){
     return(
         <div className={styles['chat-container']}>
             <ChatBar />
             <div className={styles['chat-main']}>
             <ChatHeader />
             <ChatBody />
-            <ChatFooter />
+            <ChatFooter socket={socket}/>
             </div>
         </div>
     )
