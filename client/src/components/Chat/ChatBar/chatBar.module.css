@@ -1,7 +1,43 @@
 .container {
-    background-color: red;
+    background-color: sandybrown;
     display: flex;
+    flex-direction: column;
     margin: 0;
     height: 100%;
     width: 15em;
+    flex-wrap: wrap;
+    opacity: 0.8;
+}
+.header-container {
+    width: 100%;
+    text-align: center;
+    background-color: sandybrown;
+    margin: 0 auto;
+}
+
+.header {
+    color: papayawhip;
+    font-size: xxx-large;
+}
+
+.users-list {
+    width: 100%;
+}
+
+.user {
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.user:hover {
+  background-color: lightskyblue;
+  color: wheat;
+}
+
+.divider {
+    height: 20px;
 }
