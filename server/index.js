@@ -13,7 +13,7 @@ app.use(cors())
 socketIo.on('connection', (socket) => {
     console.log(`${socket.id} has connected`)
     socket.on('message', (receivedData) => {
-        console.log(receivedData)
+        socketIo.emit('messageResponse', receivedData)
     })
     socketIo.on('disconnect', () => {
         console.log(`${socket.id} has disconnected`)

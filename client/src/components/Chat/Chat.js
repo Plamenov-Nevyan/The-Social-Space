@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import styles from "./chat.module.css"
 import {ChatBar} from "./ChatBar/ChatBar";
 import {ChatBody} from "./ChatBody/ChatBody";
@@ -6,12 +7,19 @@ import {ChatHeader} from "./ChatHeader/ChatHeader";
 
 
 export function Chat({socket}){
+    const [messagesData, setMessagesData] = useState([])
+    useEffect(() => {
+        socket.on('messageResponse', (receivedData) => {
+            setMessagesData(currData => [...currData, receivedData])
+        })
+    }, [socket, messagesData])
+   console.log(messagesData)
     return(
         <div className={styles['chat-container']}>
             <ChatBar />
             <div className={styles['chat-main']}>
             <ChatHeader />
-            <ChatBody />
+            <ChatBody messagesData={messagesData}/>
             <ChatFooter socket={socket}/>
             </div>
         </div>
