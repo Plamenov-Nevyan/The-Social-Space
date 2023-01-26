@@ -1,5 +1,49 @@
 .container {
-    background-color: green;
+    background-color: white;
     margin: auto;
-    width: 50%;
+    width: 125%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 6;
 }
+
+.sent-message-container {
+    background-color: white;
+    width: fit-content;
+    align-self: flex-end;
+    font-size: 1.4em;
+    text-align: end;
+}
+
+.received-message-container {
+    background-color: white;
+    width: fit-content;
+    align-self: flex-start;
+    font-size: 1.4em;
+}
+
+.text-field-sent {
+  background-color: lawngreen;
+  padding: 1em;
+  border-radius: 25px;
+  inline-size: 400px;
+  overflow-wrap: break-word;
+}
+
+.text-field-received {
+  background-color: salmon;
+  padding: 1em;
+  border-radius: 25px;
+  inline-size: 400px;
+  overflow-wrap: break-word;
+}
+
+.message-typing {
+    position: fixed;
+    bottom: 90px;
+    font-size: 1em;
+    font-style: italic;
+    margin-left: 5px ;
+  }

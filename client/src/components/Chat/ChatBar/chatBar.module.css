@@ -1,5 +1,5 @@
 .container {
-    background-color: sandybrown;
+    background-color: moccasin;
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -11,12 +11,12 @@
 .header-container {
     width: 100%;
     text-align: center;
-    background-color: sandybrown;
+    background-color: moccasin;
     margin: 0 auto;
 }
 
 .header {
-    color: papayawhip;
+    color: sienna;
     font-size: xxx-large;
 }
 
