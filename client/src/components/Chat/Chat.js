@@ -10,10 +10,10 @@ export function Chat({socket}){
     const [messagesData, setMessagesData] = useState([])
     useEffect(() => {
         socket.on('messageResponse', (receivedData) => {
-            setMessagesData(currData => [...currData, receivedData])
+            setMessagesData([...messagesData, receivedData])
         })
     }, [socket, messagesData])
-   console.log(messagesData)
+ 
     return(
         <div className={styles['chat-container']}>
             <ChatBar />

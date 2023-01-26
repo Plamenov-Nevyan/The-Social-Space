@@ -1,11 +1,13 @@
 import {useState} from "react"
+import {useLocalStorage} from "../../../hooks/useLocalStorage"
 import styles from "./chatFooter.module.css"
 
 export function ChatFooter({socket}){
   const [message, setMessage] = useState('')
+  const {getFromStorage} = useLocalStorage()
 
   const messageHandler = () => {
-    let username = localStorage.getItem('username')
+    let username = getFromStorage('username')
     if(username){
            socket.emit('message', {
             text : message.trim(),

@@ -1,14 +1,16 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useLocalStorage} from "../../hooks/useLocalStorage";
 
 
 export function Home({socket}){
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
-    
+    const {setToStorage} = useLocalStorage()
+     
     const submitHandler = (e) => {
        e.preventDefault()
-       localStorage.setItem('username', username)
+       setToStorage('username', username)
        navigate('/chat')
     }
 
