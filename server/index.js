@@ -8,6 +8,8 @@ const socketIo = require("socket.io")(http, {
     }
 })
 
+let activeUsers = []
+
 app.use(cors())
 
 socketIo.on('connection', (socket) => {
@@ -16,7 +18,13 @@ socketIo.on('connection', (socket) => {
         socketIo.emit('messageResponse', receivedData)
     })
     socketIo.on('disconnect', () => {
-        console.log(`${socket.id} has disconnected`)
+        activeUsers = activeUsers.filter(user => user.socketId !== socket.id)
+        socket.emit('sendListOfUsers', activeUsers)
+        socket.disconnect()
+    })
+    socket.on('userSignUp',(data) => {
+       activeUsers.push(data)
+       socket.emit('sendListOfUsers', activeUsers)
     })
 })
 

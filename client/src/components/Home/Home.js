@@ -11,6 +11,7 @@ export function Home({socket}){
     const submitHandler = (e) => {
        e.preventDefault()
        setToStorage('username', username)
+       socket.emit('userSignUp', {username, socketId : socket.id})
        navigate('/chat')
     }
 

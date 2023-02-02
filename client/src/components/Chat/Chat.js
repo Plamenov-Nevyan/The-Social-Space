@@ -12,13 +12,14 @@ export function Chat({socket}){
         socket.on('messageResponse', (receivedData) => {
             setMessagesData([...messagesData, receivedData])
         })
+       
     }, [socket, messagesData])
- 
+    
     return(
         <div className={styles['chat-container']}>
-            <ChatBar />
+            <ChatBar socket={socket} />
             <div className={styles['chat-main']}>
-            <ChatHeader />
+            <ChatHeader socket={socket} />
             <ChatBody messagesData={messagesData}/>
             <ChatFooter socket={socket}/>
             </div>

@@ -17,19 +17,28 @@ export function useLocalStorage(){
    })
  }
 
- const removeFromStorage = (keyOrKeys) => {
-    Array.isArray(keyOrKeys) 
-    ? setStoredData(oldData => Object.fromEntries(Object.entries(storedData).filter(([currKey]) => keyOrKeys.includes(currKey) )))
-    : setStoredData(oldData => Object.fromEntries(Object.entries(storedData).filter(([currKey]) => currKey !== keyOrKeys )))
-    localStorage.setItem("session", JSON.stringify({...storedData}))
+//  const removeFromStorage = (keyOrKeys) => {
+//     console.log(keyOrKeys)
+//    if (Array.isArray(keyOrKeys)){ 
+//      setStoredData({...Object.fromEntries(Object.entries(storedData).filter(([currKey]) => keyOrKeys.includes(currKey) ))})
+//    }else {
+//     setStoredData({...Object.fromEntries(Object.entries(storedData).filter(([currKey]) => currKey !== keyOrKeys ))})
+//    }
+//    localStorage.setItem("session", JSON.stringify({...storedData}))
+//  }
+
+ const deleteSession = () => {
+   localStorage.removeItem('session')
+   setStoredData({})
  }
 
  const getFromStorage = (key) => storedData[key]
 
  return {
     setToStorage,
-    removeFromStorage,
-    getFromStorage
+   //  removeFromStorage,
+    getFromStorage,
+    deleteSession
  }
 
 }
