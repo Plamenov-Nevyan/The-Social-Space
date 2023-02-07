@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react"
+import { useLocalStorage } from "../../../hooks/useLocalStorage"
 import styles from "./chatBar.module.css"
 
 export function ChatBar({socket}){
   const [activeUsers, setActiveUsers] = useState([])
+  const {getFromStorage} = useLocalStorage()
+  let username = getFromStorage('username')
+
   useEffect(() => {
     socket.on('sendListOfUsers', (users) => {
         setActiveUsers([...users])
     })
 }, [socket, activeUsers])
-console.log(activeUsers)
 
   return (
   <div className={styles.container}>
@@ -20,7 +23,13 @@ console.log(activeUsers)
     <div className={styles.divider}></div>
     <ul className={styles["users-list"]}>
       {activeUsers.length > 1
-       ? activeUsers.map(user => <li key={user.socketId} className={styles.user}>{user.username}</li>)
+       ? activeUsers.map(user => user.username !== username && <li 
+       key={user.socketId} 
+       className={styles.user}
+       >
+        {user.username}
+       </li>
+       )
        : <h3>No one is online at the moment...</h3>
       }
     </ul>
