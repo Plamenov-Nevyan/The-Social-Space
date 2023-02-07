@@ -18,15 +18,14 @@ socketIo.on('connection', (socket) => {
         socketIo.emit('messageResponse', receivedData)
     })
     socket.on('disconnect', () => {
-        console.log(`${socket.id} has disconnected`)
+
         activeUsers = activeUsers.filter(user => user.socketId !== socket.id)
-        console.log(activeUsers)
-        socket.emit('sendListOfUsers', activeUsers)
+        socketIo.emit('sendListOfUsers', activeUsers)
         socket.disconnect()
     })
     socket.on('userSignUp',(data) => {
        activeUsers.push(data)
-       socket.emit('sendListOfUsers', activeUsers)
+       socketIo.emit('sendListOfUsers', activeUsers)
     })
 })
 

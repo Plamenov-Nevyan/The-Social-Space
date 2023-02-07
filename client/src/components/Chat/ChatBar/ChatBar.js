@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react"
 import styles from "./chatBar.module.css"
 
-export function ChatBar({activeUsers}){
-
+export function ChatBar({socket}){
+  const [activeUsers, setActiveUsers] = useState([])
+  useEffect(() => {
+    socket.on('sendListOfUsers', (users) => {
+        setActiveUsers([...users])
+    })
+}, [socket, activeUsers])
+console.log(activeUsers)
 
   return (
   <div className={styles.container}>

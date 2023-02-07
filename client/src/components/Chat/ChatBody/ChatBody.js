@@ -6,7 +6,6 @@ import {MessageSent} from "./MessageSent"
 export function ChatBody({messagesData}){
   const {getFromStorage} = useLocalStorage()
   const username = getFromStorage('username')
-  console.log(username)
 
     return (
         <div className={styles.container}>

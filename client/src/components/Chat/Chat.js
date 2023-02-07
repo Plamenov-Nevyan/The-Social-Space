@@ -12,19 +12,12 @@ export function Chat({socket}){
         socket.on('messageResponse', (receivedData) => {
             setMessagesData([...messagesData, receivedData])
         })
-       
+        
     }, [socket, messagesData])
-    const [activeUsers, setActiveUsers] = useState([])
-
-    useEffect(() => {
-      socket.on('sendListOfUsers', (users) => {
-          setActiveUsers([...users])
-      })
-  }, [socket, activeUsers])
 
     return(
         <div className={styles['chat-container']}>
-            <ChatBar activeUsers={activeUsers} />
+            <ChatBar socket={socket} />
             <div className={styles['chat-main']}>
             <ChatHeader socket={socket} />
             <ChatBody messagesData={messagesData}/>
