@@ -14,10 +14,17 @@ export function Chat({socket}){
         })
        
     }, [socket, messagesData])
-    
+    const [activeUsers, setActiveUsers] = useState([])
+
+    useEffect(() => {
+      socket.on('sendListOfUsers', (users) => {
+          setActiveUsers([...users])
+      })
+  }, [socket, activeUsers])
+
     return(
         <div className={styles['chat-container']}>
-            <ChatBar socket={socket} />
+            <ChatBar activeUsers={activeUsers} />
             <div className={styles['chat-main']}>
             <ChatHeader socket={socket} />
             <ChatBody messagesData={messagesData}/>

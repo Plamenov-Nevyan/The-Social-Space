@@ -1,14 +1,8 @@
 import { useState, useEffect } from "react"
 import styles from "./chatBar.module.css"
 
-export function ChatBar({socket}){
-  const [activeUsers, setActiveUsers] = useState([])
+export function ChatBar({activeUsers}){
 
-  useEffect(() => {
-    socket.on('sendListOfUsers', (users) => {
-        setActiveUsers([...users])
-    })
-}, [socket, activeUsers])
 
   return (
   <div className={styles.container}>
@@ -19,7 +13,7 @@ export function ChatBar({socket}){
     <h2 className={styles["active-users-header"]}>Active users:</h2>
     <div className={styles.divider}></div>
     <ul className={styles["users-list"]}>
-      {activeUsers.length > 0
+      {activeUsers.length > 1
        ? activeUsers.map(user => <li key={user.socketId} className={styles.user}>{user.username}</li>)
        : <h3>No one is online at the moment...</h3>
       }

@@ -17,8 +17,10 @@ socketIo.on('connection', (socket) => {
     socket.on('message', (receivedData) => {
         socketIo.emit('messageResponse', receivedData)
     })
-    socketIo.on('disconnect', () => {
+    socket.on('disconnect', () => {
+        console.log(`${socket.id} has disconnected`)
         activeUsers = activeUsers.filter(user => user.socketId !== socket.id)
+        console.log(activeUsers)
         socket.emit('sendListOfUsers', activeUsers)
         socket.disconnect()
     })
@@ -36,4 +38,4 @@ app.get('/', (req, res) => {
 
 http.listen(port, () => {
     console.log(`Surver running on port ${port}...`)
-})
+})  
