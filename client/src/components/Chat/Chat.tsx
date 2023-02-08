@@ -1,13 +1,17 @@
 import {useEffect, useState} from "react";
-import styles from "./chat.module.css"
+import * as styles from "./chat.module.css"
 import {ChatBar} from "./ChatBar/ChatBar";
 import {ChatBody} from "./ChatBody/ChatBody";
 import {ChatFooter} from "./ChatFooter/ChatFooter";
 import {ChatHeader} from "./ChatHeader/ChatHeader";
+import { Socket } from "socket.io-client";
 
+type ChatProps = {
+    socket : Socket
+}
 
-export function Chat({socket}){
-    const [messagesData, setMessagesData] = useState([])
+export function Chat({socket}: ChatProps){
+    const [messagesData, setMessagesData] = useState<object[]>([])
     useEffect(() => {
         socket.on('messageResponse', (receivedData) => {
             setMessagesData([...messagesData, receivedData])
