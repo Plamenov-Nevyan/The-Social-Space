@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react"
 import { useLocalStorage } from "../../../hooks/useLocalStorage"
 import styles from "./chatBar.module.css"
+import { Socket } from "socket.io-client";
 
-export function ChatBar({socket}){
-  const [activeUsers, setActiveUsers] = useState([])
+type ChatBarProps = {
+  socket : Socket
+}
+
+export function ChatBar({socket}: ChatBarProps){
+  const [activeUsers, setActiveUsers] = useState<object[]>([])
   const {getFromStorage} = useLocalStorage()
   let username = getFromStorage('username')
 

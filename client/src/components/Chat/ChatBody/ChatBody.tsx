@@ -3,7 +3,11 @@ import styles from "./chatBody.module.css"
 import {MessageReceived} from "./MessageReceived"
 import {MessageSent} from "./MessageSent"
 
-export function ChatBody({messagesData}){
+type ChatBodyProps = {
+  messagesData : object[]
+}
+
+export function ChatBody({messagesData}: ChatBodyProps){
   const {getFromStorage} = useLocalStorage()
   const username = getFromStorage('username')
 

@@ -1,6 +1,11 @@
 import styles from "./chatBody.module.css";
 
-export function MessageReceived({name, text}) {
+type ReceivedMessagesProps = {
+  name : string,
+  text : string
+}
+
+export function MessageReceived({name, text}: ReceivedMessagesProps) {
   return (
     <div className={styles["received-message-container"]}>
       <p className={styles["username-received"]}>{name}</p>

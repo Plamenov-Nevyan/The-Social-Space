@@ -1,8 +1,13 @@
 import {useState} from "react"
 import {useLocalStorage} from "../../../hooks/useLocalStorage"
 import styles from "./chatFooter.module.css"
+import { Socket } from "socket.io-client";
 
-export function ChatFooter({socket}){
+type ChatFooterProps = {
+  socket : Socket
+}
+
+export function ChatFooter({socket}: ChatFooterProps){
   const [message, setMessage] = useState('')
   const {getFromStorage} = useLocalStorage()
 

@@ -1,6 +1,10 @@
 import styles from "./chatBody.module.css";
 
-export function MessageSent({text}) {
+type SentMessagesProps = {
+  text : string
+}
+
+export function MessageSent({text}: SentMessagesProps) {
   return (
     <div className={styles["sent-message-container"]}>
       <p className={styles["username-sent"]}>You</p>

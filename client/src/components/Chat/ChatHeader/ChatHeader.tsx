@@ -1,8 +1,13 @@
 import {useNavigate} from "react-router-dom"
 import {useLocalStorage} from "../../../hooks/useLocalStorage"
 import styles from "./chatHeader.module.css"
+import { Socket } from "socket.io-client";
 
-export function ChatHeader({socket}){
+type ChatHeaderProps = {
+  socket : Socket
+}
+
+export function ChatHeader({socket}: ChatHeaderProps){
   const navigate = useNavigate()
   const {deleteSession} = useLocalStorage()
   const leaveHandler = () => {
