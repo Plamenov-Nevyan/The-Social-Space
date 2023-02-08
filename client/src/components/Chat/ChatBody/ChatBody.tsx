@@ -2,12 +2,17 @@ import {useLocalStorage} from "../../../hooks/useLocalStorage"
 import styles from "./chatBody.module.css"
 import {MessageReceived} from "./MessageReceived"
 import {MessageSent} from "./MessageSent"
-
+type MessageDataProps = {
+  text : string,
+  name : string,
+  id : string,
+  socketId : string,
+}
 type ChatBodyProps = {
-  messagesData : object[]
+  messagesData : MessageDataProps[]
 }
 
-export function ChatBody({messagesData}: ChatBodyProps){
+export function ChatBody({messagesData} : ChatBodyProps){
   const {getFromStorage} = useLocalStorage()
   const username = getFromStorage('username')
 

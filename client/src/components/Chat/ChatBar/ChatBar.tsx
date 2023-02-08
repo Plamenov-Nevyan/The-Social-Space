@@ -7,8 +7,13 @@ type ChatBarProps = {
   socket : Socket
 }
 
+type UserProps = {
+  username : string,
+  socketId : string
+}
+
 export function ChatBar({socket}: ChatBarProps){
-  const [activeUsers, setActiveUsers] = useState<object[]>([])
+  const [activeUsers, setActiveUsers] = useState<UserProps[]>([])
   const {getFromStorage} = useLocalStorage()
   let username = getFromStorage('username')
 

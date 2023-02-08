@@ -9,9 +9,15 @@ import { Socket } from "socket.io-client";
 type ChatProps = {
     socket : Socket
 }
+type MessageDataProps = {
+    text : string,
+    name : string,
+    id : string,
+    socketId : string,
+  }
 
 export function Chat({socket}: ChatProps){
-    const [messagesData, setMessagesData] = useState<object[]>([])
+    const [messagesData, setMessagesData] = useState<MessageDataProps[]>([])
     useEffect(() => {
         socket.on('messageResponse', (receivedData) => {
             setMessagesData([...messagesData, receivedData])
