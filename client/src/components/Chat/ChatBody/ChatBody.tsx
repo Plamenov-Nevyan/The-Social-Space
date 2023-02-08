@@ -14,7 +14,7 @@ type ChatBodyProps = {
 
 export function ChatBody({messagesData} : ChatBodyProps){
   const {getFromStorage} = useLocalStorage()
-  const username = getFromStorage('username')
+  const username = getFromStorage('firstName') + " " + getFromStorage('lastName')
 
     return (
         <div className={styles.container}>

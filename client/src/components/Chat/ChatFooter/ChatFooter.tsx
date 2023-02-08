@@ -12,7 +12,7 @@ export function ChatFooter({socket}: ChatFooterProps){
   const {getFromStorage} = useLocalStorage()
 
   const messageHandler = () => {
-    let username = getFromStorage('username')
+    let username = getFromStorage('firstName') + " " + getFromStorage('lastName')
     if(username){
            socket.emit('message', {
             text : message.trim(),

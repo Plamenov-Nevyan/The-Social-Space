@@ -1,14 +1,11 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
+import { SocketContext } from "../../contexts/SocketContext";
 import styles from "./chat.module.css"
 import {ChatBar} from "./ChatBar/ChatBar";
 import {ChatBody} from "./ChatBody/ChatBody";
 import {ChatFooter} from "./ChatFooter/ChatFooter";
 import {ChatHeader} from "./ChatHeader/ChatHeader";
-import { Socket } from "socket.io-client";
 
-type ChatProps = {
-    socket : Socket
-}
 type MessageDataProps = {
     text : string,
     name : string,
@@ -16,8 +13,9 @@ type MessageDataProps = {
     socketId : string,
   }
 
-export function Chat({socket}: ChatProps){
+export function Chat(){
     const [messagesData, setMessagesData] = useState<MessageDataProps[]>([])
+    const socket = useContext(SocketContext)
     useEffect(() => {
         socket.on('messageResponse', (receivedData) => {
             setMessagesData([...messagesData, receivedData])

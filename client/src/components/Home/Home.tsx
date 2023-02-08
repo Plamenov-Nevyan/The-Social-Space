@@ -1,11 +1,11 @@
 import {useNavigate} from "react-router-dom";
 import {useLocalStorage} from "../../hooks/useLocalStorage";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useContext } from "react";
+import { SocketContext } from "../../contexts/SocketContext";
 import { AccountForm } from "./Forms/AccountForm";
 import { AdressForm } from "./Forms/AdressForm";
 import { useMultistepForm } from "../../hooks/useMultistepForm";
 import { UserForm } from "./Forms/UserForm";
-import { Socket } from "socket.io-client";
 import styles from "./home.module.css"
 
 type FormData = {
@@ -32,20 +32,17 @@ let initialData: FormData = {
   password: "",
 };
 
-type HomeProps = {
-    socket : Socket
-}
 
-
-export function Home({socket}: HomeProps){
+export function Home(){
     const navigate = useNavigate()
+    const socket = useContext(SocketContext)
     const [data, setData] = useState(initialData);
     const {setToStorage} = useLocalStorage()
      
     const submitHandler = (e:FormEvent) => {
        e.preventDefault()
        setToStorage(data)
-       socket.emit('userSignUp', {data, socketId : socket.id})
+       socket.emit('userSignUp', {...data, socketId : socket.id})
        navigate('/chat')
     }
 
