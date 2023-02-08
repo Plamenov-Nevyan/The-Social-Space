@@ -1,11 +1,14 @@
 import {Route, Routes} from "react-router-dom";
-import socketIo from "socket.io-client"
+import socketIo, {Socket} from "socket.io-client"
 import {Chat} from "./components/Chat/Chat";
 import {Home} from "./components/Home/Home";
-const socket = socketIo.connect('http://localhost:8000')
+let socket : Socket;
+const ENDPOINT = "localhost:5000"
+socket = socketIo(ENDPOINT)
+// const socket: Socket<ClientToServerEvents> = socketIo()
 
 
-function App() {
+function App() {  
   return (
   <Routes>
     <Route path="/" element={<Home socket={socket}/>} />

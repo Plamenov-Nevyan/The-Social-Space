@@ -1,20 +1,24 @@
 import {useState} from "react";
-
+// type LocalStorageItems = {
+//   session : {
+//     firstName: string;
+//     lastName: string;
+//     age: string;
+//     street: string;
+//     city: string;
+//     state: string;
+//     ZIP: string;
+//     email: string;
+//     password: string;
+//   }
+// }
 
 export function useLocalStorage(){
-  const [storedData, setStoredData] = useState(() => {
-    let session = JSON.parse(localStorage.getItem('session'))
-    return session !== null ? session : {}
- })
+  const [storedData, setStoredData] = useState(() => JSON.parse(localStorage.getItem('session') || '{}'))
 
- const setToStorage = (key, data) => {
-   localStorage.setItem("session", JSON.stringify({...storedData, [key] : data}))
-   setStoredData(oldData =>{
-    return {
-        ...oldData, 
-        [key] : data
-     }
-   })
+ const setToStorage = (data:object) => {
+   localStorage.setItem("session", JSON.stringify({...data}))
+   setStoredData({...data})
  }
 
 //  const removeFromStorage = (keyOrKeys) => {
@@ -32,7 +36,8 @@ export function useLocalStorage(){
    setStoredData({})
  }
 
- const getFromStorage = (key) => storedData[key]
+ const getFromStorage = (key:string) => storedData[key]
+
 
  return {
     setToStorage,
