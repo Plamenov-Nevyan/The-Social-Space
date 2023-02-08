@@ -6,6 +6,7 @@ import { AdressForm } from "./Forms/AdressForm";
 import { useMultistepForm } from "../../hooks/useMultistepForm";
 import { UserForm } from "./Forms/UserForm";
 import { Socket } from "socket.io-client";
+import styles from "./home.module.css"
 
 type FormData = {
   firstName: string;
@@ -78,22 +79,22 @@ export function Home({socket}: HomeProps){
   };
 
     return (
-        <div id="container">
+        <div id={styles.container}>
       <form onSubmit={
         isLastStep 
         ? submitHandler
         : moveThroughForm
         }>
-      <div className="progress-bar">
+      <div className={styles["progress-bar"]}>
         <div style={{width : isFirstStep ? '30%' : isLastStep ?'100%' : '60%'}}></div>
       </div>
-        <div id="steps_handler">
+        <div id={styles.steps_handler}>
           {currentStepIndex + 1} / {steps.length}
         </div>
 
         {step}
 
-        <div id="buttons_container">
+        <div id={styles.buttons_container}>
           {!isFirstStep && (
             <button type="button" onClick={previousStep}>
               Previous

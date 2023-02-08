@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import * as styles from "./chat.module.css"
+import styles from "./chat.module.css"
 import {ChatBar} from "./ChatBar/ChatBar";
 import {ChatBody} from "./ChatBody/ChatBody";
 import {ChatFooter} from "./ChatFooter/ChatFooter";
