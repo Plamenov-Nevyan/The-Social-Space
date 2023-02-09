@@ -3,19 +3,18 @@ import {useLocalStorage} from "../../hooks/useLocalStorage";
 import { FormEvent, useState, useContext } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
 import { AccountForm } from "./Forms/AccountForm";
-import { AdressForm } from "./Forms/AdressForm";
+import { ProfileDataForm } from "./Forms/ProfileDataForm";
 import { useMultistepForm } from "../../hooks/useMultistepForm";
-import { UserForm } from "./Forms/UserForm";
+import { PersonalInfo } from "./Forms/PersonalInfoForm";
 import styles from "./home.module.css"
 
 type FormData = {
   firstName: string;
   lastName: string;
   age: string;
-  street: string;
-  city: string;
-  state: string;
-  ZIP: string;
+  nickname : string;
+  interests: string[];
+  description : string;
   email: string;
   password: string;
 };
@@ -24,10 +23,9 @@ let initialData: FormData = {
   firstName: "",
   lastName: "",
   age: "",
-  street: "",
-  city: "",
-  state: "",
-  ZIP: "",
+  nickname: "",
+  interests: [],
+  description: "",
   email: "",
   password: "",
 };
@@ -38,6 +36,7 @@ export function Home(){
     const socket = useContext(SocketContext)
     const [data, setData] = useState(initialData);
     const {setToStorage} = useLocalStorage()
+    console.log(data)
      
     const submitHandler = (e:FormEvent) => {
        e.preventDefault()
@@ -64,8 +63,8 @@ export function Home(){
         nextStep,
         previousStep,
       } = useMultistepForm([
-        <UserForm {...data} updateFormState={updateFormState} />,
-        <AdressForm {...data} updateFormState={updateFormState} />,
+        <PersonalInfo {...data} updateFormState={updateFormState} />,
+        <ProfileDataForm {...data} updateFormState={updateFormState} />,
         <AccountForm {...data} updateFormState={updateFormState} />,
       ]);
 

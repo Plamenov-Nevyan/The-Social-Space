@@ -9,14 +9,14 @@ type UserFormProps = UserData & {
   updateFormState: (fields: Partial<UserData>) => void;
 };
 
-export function UserForm({
+export function PersonalInfo({
   firstName,
   lastName,
   age,
   updateFormState,
 }: UserFormProps) {
   return (
-    <FormWrapper title="User Details">
+    <FormWrapper title="Personal Information">
       <label>First name</label>
       <input
         autoFocus
