@@ -1,3 +1,5 @@
+import { UserProps } from "./types"
+import { Socket } from "socket.io"
 const app = require('express')()
 const port = 8000
 const http = require('http').Server(app)
@@ -8,11 +10,11 @@ const socketIo = require("socket.io")(http, {
     }
 })
 
-let activeUsers = []
+let activeUsers: UserProps[] = []
 
 app.use(cors())
 
-socketIo.on('connection', (socket) => {
+socketIo.on('connection', (socket: Socket) => {
     console.log(`${socket.id} has connected`)
     socket.on('message', (receivedData) => {
         socketIo.emit('messageResponse', receivedData)
@@ -26,12 +28,6 @@ socketIo.on('connection', (socket) => {
     socket.on('userSignUp',(data) => {
        activeUsers.push(data)
        socketIo.emit('sendListOfUsers', activeUsers)
-    })
-})
-
-app.get('/', (req, res) => {
-    res.json({
-        message : "Hello world"
     })
 })
 
