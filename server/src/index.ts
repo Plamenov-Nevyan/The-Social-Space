@@ -1,18 +1,22 @@
 import { UserProps } from "./types"
 import { Socket } from "socket.io"
-const app = require('express')()
-const port = 8000
-const http = require('http').Server(app)
-const cors = require('cors')
+import express, { Express, Request } from "express"
+import env from "./config/envConfig"
+import { createServer} from "http"
+import cors from "cors"
+
+const app: Express = express()
+const http = createServer(app)
 const socketIo = require("socket.io")(http, {
     cors : {
         origin : 'http://localhost:3000'
     }
 })
 
+
 let activeUsers: UserProps[] = []
 
-app.use(cors())
+app.use(cors<Request>())
 
 socketIo.on('connection', (socket: Socket) => {
     console.log(`${socket.id} has connected`)
@@ -31,6 +35,6 @@ socketIo.on('connection', (socket: Socket) => {
     })
 })
 
-http.listen(port, () => {
-    console.log(`Surver running on port ${port}...`)
+http.listen(env.SERVER_PORT, () => {
+    console.log(`Surver is running on port ${env.SERVER_PORT}...`)
 })  
