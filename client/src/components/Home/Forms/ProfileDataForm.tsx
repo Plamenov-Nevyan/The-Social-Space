@@ -8,7 +8,7 @@ type ProfileData = {
   description: string;
 };
 
-type AdressFormProps = ProfileData & {
+type ProfileFormProps = ProfileData & {
   updateFormState: (fields: Partial<ProfileData>) => void;
 };
 
@@ -17,7 +17,7 @@ export function ProfileDataForm({
   interests,
   description,
   updateFormState,
-}: AdressFormProps) {
+}: ProfileFormProps) {
 
   const [interestTags, setInterests] = useState<string[]>([])
 
@@ -40,7 +40,16 @@ export function ProfileDataForm({
         {interestTags.length > 0
          ? interestTags.map((interest, index) => <div key={index} className={styles["tag-item"]}>
             <span className={styles.interestText}>{interest}</span>
-            <span className={styles.close}>&times;</span>
+            <span className={styles.close}
+            onClick = {(e) => {
+              setInterests(currentInterests => currentInterests.filter(currTag => currTag !== interest))
+              updateFormState({
+                interests : interests.filter(currInterest => currInterest !== interest)
+              })
+            }}
+            >
+              &times;
+              </span>
          </div>
          )
          :<span>Your interests will be tagged here</span>
@@ -49,6 +58,7 @@ export function ProfileDataForm({
         required
         className={styles["tags-input"]}
         type="text"
+        placeholder="Pets, music, cars, etc..."
         onKeyDown={(e) =>{
           if(e.key === 'Enter'){
             setInterests([...interestTags, (e.target as HTMLInputElement).value.trim()])
