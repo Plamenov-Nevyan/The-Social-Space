@@ -28,7 +28,15 @@ export function AccountForm({
         }
       />
       <label>Password</label>
-      <input required type="password" />
+      <input 
+      required 
+      type="password" 
+      onChange={(e) =>
+        updateFormState({
+          password: e.target.value,
+        })
+      }
+      />
     </FormWrapper>
   );
 }

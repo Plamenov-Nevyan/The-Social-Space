@@ -84,3 +84,30 @@
     border: none;
     outline: none;
 }
+
+.choises-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.3em;
+    margin: 0.5em;
+}
+
+.divider {
+    background-color: #777;
+    align-self: stretch;
+    width: 0.15em;
+}
+
+.action-chooser {
+    transition: ease-in-out 0.3s;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.action-chooser:hover {
+ background-color: gainsboro;
+ padding: 0.3em;
+}
+.action-chooser-active {
+    background-color: gainsboro;
+    padding: 0.3em;
+   }

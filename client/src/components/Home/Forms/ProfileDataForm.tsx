@@ -71,16 +71,16 @@ export function ProfileDataForm({
       />
       </div>
       <label>Describe yourself with few words</label>
-      <input
+      <textarea
         required
-        type="text"
         value={description}
         onChange={(e) =>
           updateFormState({
             description: e.target.value,
           })
         }
-      />
+       >
+      </textarea>
     </FormWrapper>
   );
 }
