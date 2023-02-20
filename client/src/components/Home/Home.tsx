@@ -1,5 +1,4 @@
 import {useNavigate} from "react-router-dom";
-import {useLocalStorage} from "../../hooks/useLocalStorage";
 import { FormEvent, useState, useContext } from "react";
 import { SocketContext } from "../../contexts/SocketContext";
 import { AccountForm } from "./Forms/AccountForm";
@@ -8,6 +7,8 @@ import { useMultistepForm } from "../../hooks/useMultistepForm";
 import { PersonalInfo } from "./Forms/PersonalInfoForm";
 import styles from "./home.module.css"
 import { LoginForm } from "./Forms/LoginForm";
+import { useFetch } from "../../hooks/useFetch";
+import { ErrorAlert } from "../Alerts/Error";
 
 type FormData = {
   firstName: string;
@@ -37,13 +38,20 @@ export function Home(){
     const socket = useContext(SocketContext)
     const [data, setData] = useState(initialData);
     const [loginOrRegister, setLoginOrRegister] = useState('register')
-    const {setToStorage} = useLocalStorage()
-     
-    const submitHandler = (e:FormEvent) => {
+    const {error, response, triggerFetch} = useFetch('')
+    
+    const submitHandler = async (e:FormEvent) => {
        e.preventDefault()
-       setToStorage(data)
+       const endpoint = loginOrRegister === 'register' ? '/register' : '/login'
+        triggerFetch(endpoint, {
+        method : 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: endpoint === "/register" ? JSON.stringify(data) : JSON.stringify({email : data.email, password: data.password})
+       })
+       if(error === ''){
        socket.emit('userSignUp', {...data, socketId : socket.id})
        navigate('/chat')
+       }
     }
 
     function updateFormState(fields: Partial<FormData>) {
@@ -76,6 +84,8 @@ export function Home(){
   };
 
     return (
+      <>
+      {error !== '' && <ErrorAlert error={error} />}
       <div id={styles.container}>
         <div className={styles['choises-container']}>
           <h2 className={
@@ -128,5 +138,6 @@ export function Home(){
     </form>
     }
     </div>
+    </>
   );
 }

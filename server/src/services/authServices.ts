@@ -1,10 +1,11 @@
 import UserSchema from "../Models/User"
 import bcryptjs from "bcryptjs"
 import jsonwebtoken from "jsonwebtoken"
-import { UserProps } from "../types"
+import { UserProps, UserPropsLogin } from "../types"
 import env from "../config/envConfig"
+import { Types } from "mongoose"
 
-const registerUser = async (userData : UserProps) => {
+export const registerUser = async (userData : UserProps) => {
    let isUserExisting = await checkIfUserExists(userData.email)
    if(!isUserExisting){
     try{
@@ -21,9 +22,24 @@ const registerUser = async (userData : UserProps) => {
    }
 }
 
-const checkIfUserExists = (email:string) => UserSchema.exists({email}).exec()
+const checkIfUserExists = (email:string) => UserSchema.exists({email}).exec() 
 
-const createSession = (firstName: string, lastName: string, email: string, id: string) => {
+export const loginUser = async (userData: UserPropsLogin) => {
+    let user = await UserSchema.findOne({email: userData.email})
+    if(user){
+        let isPassCorrect = await bcryptjs.compare(userData.password, user?.password)
+        if(isPassCorrect){
+            let session = createSession(user.firstName, user.lastName, user.email, user._id)
+            return session
+        }else {
+            throw new Error('Email and/or password is incorrect!')
+        }
+    }else {
+        throw new Error('Email and/or password is incorrect!')
+    }
+}
+
+export const createSession = (firstName: string, lastName: string, email: string, id: Types.ObjectId) => {
     const payload = {
         firstName,
         lastName,

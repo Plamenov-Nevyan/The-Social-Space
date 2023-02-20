@@ -5,9 +5,11 @@ export type UserProps = {
   nickname : string;
   interests: string[];
   description : string;
-  email: string;
-  password: string;
   socketId : string;
-}
+} & UserPropsLogin
 
+export type UserPropsLogin = {
+  email : string;
+  password: string
+}
 
