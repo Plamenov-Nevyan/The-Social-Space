@@ -19,7 +19,8 @@ export function ProfileDataForm({
   updateFormState,
 }: ProfileFormProps) {
 
-  const [interestTags, setInterests] = useState<string[]>([])
+  const [interestTags, setInterests] = useState<string[]>(interests)
+  const [interestInput, setInterestInput] = useState('')
 
   return (
     <FormWrapper title="Profile details">
@@ -55,16 +56,19 @@ export function ProfileDataForm({
          :<span>Your interests will be tagged here</span>
         }
       <input
-        required
         className={styles["tags-input"]}
+        value={interestInput}
         type="text"
         placeholder="Pets, music, cars, etc..."
+        onChange={(e) => setInterestInput(e.target.value)}
         onKeyDown={(e) =>{
           if(e.key === 'Enter'){
+            e.preventDefault()
             setInterests([...interestTags, (e.target as HTMLInputElement).value.trim()])
             updateFormState({
               interests: [...interests, (e.target as HTMLInputElement).value.trim()]
             })
+            setInterestInput('')
           }
         }
         }
