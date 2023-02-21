@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import { FormEvent, useState, useContext } from "react";
+import { FormEvent, useState, useContext} from "react";
 import { SocketContext } from "../../contexts/SocketContext";
 import { AccountForm } from "./Forms/AccountForm";
 import { ProfileDataForm } from "./Forms/ProfileDataForm";
@@ -38,12 +38,12 @@ export function Home(){
     const socket = useContext(SocketContext)
     const [data, setData] = useState(initialData);
     const [loginOrRegister, setLoginOrRegister] = useState('register')
-    const {error, response, triggerFetch} = useFetch('')
+    const {error, response, fetchData} = useFetch('')
     
     const submitHandler = async (e:FormEvent) => {
        e.preventDefault()
        const endpoint = loginOrRegister === 'register' ? '/register' : '/login'
-        triggerFetch(endpoint, {
+      fetchData(endpoint, {
         method : 'POST',
         headers: {'Content-Type':'application/json'},
         body: endpoint === "/register" ? JSON.stringify(data) : JSON.stringify({email : data.email, password: data.password})
@@ -133,7 +133,7 @@ export function Home(){
           <button type="submit">{isLastStep ? "Finish" : "Next"}</button>
         </div>
       </form>
-    : <form>
+    : <form onSubmit={submitHandler}>
       <LoginForm email={data.email} password={data.password} updateFormState={updateFormState}/>
     </form>
     }

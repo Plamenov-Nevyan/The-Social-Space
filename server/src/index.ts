@@ -35,7 +35,6 @@ socketIo.on('connection', (socket: Socket) => {
         socket.disconnect()
     })
     socket.on('userSignUp',(data) => {
-        console.log(data)
        activeUsers.push(data)
        socketIo.emit('sendListOfUsers', activeUsers)
     })
