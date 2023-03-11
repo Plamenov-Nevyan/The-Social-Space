@@ -29,7 +29,7 @@ type ChatBodyProps = {
 }
 
 export function ChatBody({messagesData, userId} : ChatBodyProps){
-  console.log(messagesData)
+
   return (
 
         <div className={styles.container}>

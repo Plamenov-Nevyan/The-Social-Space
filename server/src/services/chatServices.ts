@@ -5,14 +5,15 @@ export const saveSentMessage = async (messageData: MessageProps) => {
         let communicationData = await TranscriptSchema.findOne({$or: [
             {userOne: messageData.sender, userTwo: messageData.receiver},
             {userOne: messageData.receiver, userTwo: messageData.sender}
-        ]}).populate('transcript.receiver').populate('transcript.sender')
-        console.log(communicationData)
+        ]}).populate('transcript.receiver').populate('transcript.sender').exec()
+
         if(communicationData){
             communicationData?.transcript.push(messageData)
             await communicationData.save()
-            return communicationData
+            return await TranscriptSchema.findById(communicationData._id).populate('transcript.receiver').populate('transcript.sender')
         }else{
-         return await TranscriptSchema.create({userOne: messageData.sender, userTwo: messageData.receiver, transcript: [messageData]})
+         let newTranscript = await TranscriptSchema.create({userOne: messageData.sender, userTwo: messageData.receiver, transcript: [messageData]})
+         return await TranscriptSchema.findById(newTranscript._id).populate('transcript.receiver').populate('transcript.sender')
         }
 }
 

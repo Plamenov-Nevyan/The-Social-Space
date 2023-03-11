@@ -61,7 +61,6 @@ export function Chat(){
     }, [selectedUser])
  const onUserSelect = async (recipientId: string) => setSelectedUser(recipientId)
 
-console.log(messagesData)
  const sendMessageHandler = async () => {
     try{
     let commData = await sendMessage({

@@ -1,3 +1,4 @@
+import {registerUser} from "./services/authServices"
 import { UserProps } from "./types"
 import { Socket } from "socket.io"
 import express, { Express, Request } from "express"
