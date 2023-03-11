@@ -5,26 +5,23 @@ import { Socket } from "socket.io-client";
 
 type ChatBarProps = {
   socket : Socket
+  onUserSelect: (recipientId: string) => void
 }
 
 type UserProps = {
+  nickname: string,
   firstName: string;
   lastName: string;
-  age: string;
-  street: string;
-  city: string;
-  state: string;
-  ZIP: string;
   email: string;
-  password: string;
+  id: string;
+  accessToken: string;
   socketId : string;
 }
 
-export function ChatBar({socket}: ChatBarProps){
+export function ChatBar({socket, onUserSelect}: ChatBarProps){
   const [activeUsers, setActiveUsers] = useState<UserProps[]>([])
   const {getFromStorage} = useLocalStorage()
-  let username = getFromStorage('firstName') + ' ' + getFromStorage('lastName')
-
+  let username = getFromStorage('nickname')
   useEffect(() => {
     socket.on('sendListOfUsers', (users) => {
         setActiveUsers([...users])
@@ -41,11 +38,13 @@ export function ChatBar({socket}: ChatBarProps){
     <div className={styles.divider}></div>
     <ul className={styles["users-list"]}>
       {activeUsers.length > 1
-       ? activeUsers.map(user => `${user.firstName} ${user.lastName}`!== username && <li 
+       ? activeUsers.map(user => user.nickname !== username && <li 
        key={user.socketId} 
        className={styles.user}
+       id={`${user.id}/${user.socketId}`}
+       onClick={(e) => onUserSelect(e.currentTarget.id.split('/')[0])}
        >
-        {user.firstName + ' ' + user.lastName}
+        {user.nickname}
        </li>
        )
        : <h3>No one is online at the moment...</h3>

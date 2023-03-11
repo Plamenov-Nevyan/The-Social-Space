@@ -1,3 +1,5 @@
+import { ObjectId } from "mongoose";
+
 export type UserProps = {
   firstName: string;
   lastName: string;
@@ -11,5 +13,12 @@ export type UserProps = {
 export type UserPropsLogin = {
   email : string;
   password: string
+}
+
+export type MessageProps = {
+  receiver : ObjectId,
+  sender: ObjectId,
+  message: string,
+  createdAt: string,
 }
 

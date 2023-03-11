@@ -1,5 +1,4 @@
 import { FormWrapper } from "./FormsWrapper";
-import {FormEvent} from "react"
 
 type AccountData = {
     email: string;

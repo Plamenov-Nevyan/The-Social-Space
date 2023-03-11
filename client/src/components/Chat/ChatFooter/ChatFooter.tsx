@@ -4,25 +4,26 @@ import styles from "./chatFooter.module.css"
 import { Socket } from "socket.io-client";
 
 type ChatFooterProps = {
-  socket : Socket
+  socket : Socket;
+  onMessageChange : (message: string) => void;
+  sendMessageHandler: () => void;
+  currentMessage: string;
 }
 
-export function ChatFooter({socket}: ChatFooterProps){
-  const [message, setMessage] = useState('')
-  const {getFromStorage} = useLocalStorage()
+export function ChatFooter({socket, sendMessageHandler, onMessageChange, currentMessage}: ChatFooterProps){
 
-  const messageHandler = () => {
-    let username = getFromStorage('firstName') + " " + getFromStorage('lastName')
-    if(username){
-           socket.emit('message', {
-            text : message.trim(),
-            name : username,
-            id : `${socket.id}-${Math.random()}`,
-            socketId : socket.id,
-           })
-    }
-    setMessage('')
-  }
+  // const messageHandler = () => {
+  //   let username = getFromStorage('firstName') + " " + getFromStorage('lastName')
+  //   if(username){
+  //          socket.emit('message', {
+  //           text : message.trim(),
+  //           name : username,
+  //           id : `${socket.id}-${Math.random()}`,
+  //           socketId : socket.id,
+  //          })
+  //   }
+  //   setMessage('')
+  // }
 
     return (
         <div className={styles.container}>
@@ -31,12 +32,12 @@ export function ChatFooter({socket}: ChatFooterProps){
           id="messageInput" 
           name="messageInput"
           placeholder="Type your message here..."
-          value={message}
-          onChange={e => setMessage(e.target.value)}
+          value={currentMessage}
+          onChange={e => onMessageChange(e.target.value)}
           ></textarea>
           <button 
           className={styles["send-btn"]}
-          onClick={e => messageHandler()}
+          onClick={e => sendMessageHandler()}
           >
             SEND
             </button>

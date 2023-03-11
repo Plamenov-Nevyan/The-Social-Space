@@ -7,8 +7,9 @@ import { useMultistepForm } from "../../hooks/useMultistepForm";
 import { PersonalInfo } from "./Forms/PersonalInfoForm";
 import styles from "./home.module.css"
 import { LoginForm } from "./Forms/LoginForm";
-import { useFetch } from "../../hooks/useFetch";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { ErrorAlert } from "../Alerts/Error";
+import { registerUser, loginUser } from "../../services/authServices";
 
 type FormData = {
   firstName: string;
@@ -34,23 +35,22 @@ let initialData: FormData = {
 
 
 export function Home(){
+  const {setToStorage} = useLocalStorage()
     const navigate = useNavigate()
     const socket = useContext(SocketContext)
     const [data, setData] = useState(initialData);
     const [loginOrRegister, setLoginOrRegister] = useState('register')
-    const {error, response, fetchData} = useFetch('')
+    const [error, setError] = useState('')
     
     const submitHandler = async (e:FormEvent) => {
        e.preventDefault()
-       const endpoint = loginOrRegister === 'register' ? '/register' : '/login'
-      fetchData(endpoint, {
-        method : 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: endpoint === "/register" ? JSON.stringify(data) : JSON.stringify({email : data.email, password: data.password})
-       })
-       if(error === ''){
-       socket.emit('userSignUp', {...data, socketId : socket.id})
+       try{
+       let newUserData =  loginOrRegister === 'register' ? await registerUser(data) : await loginUser({email:data.email, password: data.password})
+       setToStorage(newUserData)
+       socket.emit('userSignUp', {...newUserData, socketId : socket.id})
        navigate('/chat')
+       }catch(err){
+        setError(err.message)
        }
     }
 
@@ -109,7 +109,7 @@ export function Home(){
             Register
             </h2>
         </div>
-        { loginOrRegister == 'register'
+        { loginOrRegister === 'register'
        ? <form onSubmit={
         isLastStep 
         ? submitHandler

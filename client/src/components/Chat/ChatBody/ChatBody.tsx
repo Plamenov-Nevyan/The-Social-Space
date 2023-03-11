@@ -1,31 +1,48 @@
-import {useLocalStorage} from "../../../hooks/useLocalStorage"
 import styles from "./chatBody.module.css"
+import {useState} from 'react'
 import {MessageReceived} from "./MessageReceived"
 import {MessageSent} from "./MessageSent"
+type UserProps = {
+  firstName: string,
+  lastName: string;
+  age: string;
+  nickname : string;
+  interests: string[];
+  description : string;
+  email: string;
+  _id: string
+}
 type MessageDataProps = {
-  text : string,
-  name : string,
-  id : string,
-  socketId : string,
+  receiver : UserProps,
+  sender: UserProps,
+  message: string,
+  createdAt: string,
+}
+type CommsDataProps = {
+  userOne: UserProps | {},
+  userTwo: UserProps | {},
+  transcript: MessageDataProps[] | []
 }
 type ChatBodyProps = {
-  messagesData : MessageDataProps[]
+  messagesData : CommsDataProps,
+  userId: string,
 }
 
-export function ChatBody({messagesData} : ChatBodyProps){
-  const {getFromStorage} = useLocalStorage()
-  const username = getFromStorage('firstName') + " " + getFromStorage('lastName')
+export function ChatBody({messagesData, userId} : ChatBodyProps){
+  console.log(messagesData)
+  return (
 
-    return (
         <div className={styles.container}>
-           {messagesData.map(messageData => username === messageData.name 
-             ? <MessageSent key={messageData.id} text={messageData.text} />
-             : <MessageReceived key={messageData.id} text={messageData.text} name={messageData.name} />
+           {messagesData.transcript.map((messageData, index) => userId === messageData.sender._id
+             ? <MessageSent key={index} text={messageData.message} />
+             : <MessageReceived key={index} text={messageData.message} name={messageData.sender.nickname} 
+             />
             )}
           <div className={styles["message-typing"]}>
           <p>Username is typing...</p>
         </div>
         </div>
         
-        )
+      
+  )
 }
