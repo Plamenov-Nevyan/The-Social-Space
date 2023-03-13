@@ -33,14 +33,25 @@ export function ChatBody({messagesData, userId} : ChatBodyProps){
   return (
 
         <div className={styles.container}>
-           {messagesData.transcript.map((messageData, index) => userId === messageData.sender._id
-             ? <MessageSent key={index} text={messageData.message} />
-             : <MessageReceived key={index} text={messageData.message} name={messageData.sender.nickname} 
+           {messagesData.transcript.length > 0 
+            ? <> 
+            {messagesData.transcript.map((messageData, index) => userId === messageData.sender._id
+             ? <MessageSent
+              key={index} 
+              text={messageData.message} 
+              />
+             : <MessageReceived 
+             key={index} 
+             text={messageData.message} 
+             name={messageData.sender.nickname} 
              />
             )}
-          <div className={styles["message-typing"]}>
-          <p>Username is typing...</p>
-        </div>
+            <div className={styles["message-typing"]}>
+              <p>Username is typing...</p>
+            </div>
+            </>
+            : <h1>Select a user to chat with</h1>
+          }  
         </div>
         
       

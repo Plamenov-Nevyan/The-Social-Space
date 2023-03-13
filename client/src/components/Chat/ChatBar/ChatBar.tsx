@@ -6,6 +6,7 @@ import { Socket } from "socket.io-client";
 type ChatBarProps = {
   socket : Socket
   onUserSelect: (recipientId: string, recipientSocketId:string) => void
+  clearUserSelect: () => void
 }
 
 type UserProps = {
@@ -18,7 +19,7 @@ type UserProps = {
   socketId : string;
 }
 
-export function ChatBar({socket, onUserSelect}: ChatBarProps){
+export function ChatBar({socket, onUserSelect, clearUserSelect}: ChatBarProps){
   const [activeUsers, setActiveUsers] = useState<UserProps[]>([])
   const [currSelectedUser, setCurrSelectedUser] = useState('')
   const {getFromStorage} = useLocalStorage()
@@ -47,8 +48,13 @@ export function ChatBar({socket, onUserSelect}: ChatBarProps){
       }
        id={`${user.id}/${user.socketId}`}
        onClick={(e) => {
-        setCurrSelectedUser(e.currentTarget.id.split('/')[0])
+        if(currSelectedUser === '') {
+        setCurrSelectedUser(e.currentTarget.id.split('/')[0]) 
         onUserSelect(e.currentTarget.id.split('/')[0], e.currentTarget.id.split('/')[1])
+        }else {
+          setCurrSelectedUser('')
+          clearUserSelect()
+        }
        }}
        >
         {user.nickname}

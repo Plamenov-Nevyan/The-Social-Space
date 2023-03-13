@@ -1,33 +1,18 @@
-import {useState} from "react"
-import {useLocalStorage} from "../../../hooks/useLocalStorage"
 import styles from "./chatFooter.module.css"
-import { Socket } from "socket.io-client";
 
 type ChatFooterProps = {
-  socket : Socket;
   onMessageChange : (message: string) => void;
   sendMessageHandler: () => void;
   currentMessage: string;
+  activeUser: string[]
 }
 
-export function ChatFooter({socket, sendMessageHandler, onMessageChange, currentMessage}: ChatFooterProps){
-
-  // const messageHandler = () => {
-  //   let username = getFromStorage('firstName') + " " + getFromStorage('lastName')
-  //   if(username){
-  //          socket.emit('message', {
-  //           text : message.trim(),
-  //           name : username,
-  //           id : `${socket.id}-${Math.random()}`,
-  //           socketId : socket.id,
-  //          })
-  //   }
-  //   setMessage('')
-  // }
+export function ChatFooter({sendMessageHandler, onMessageChange, currentMessage, activeUser}: ChatFooterProps){
 
     return (
         <div className={styles.container}>
-          <textarea 
+          {activeUser.length > 0 && <>
+           <textarea 
           className={styles["message-input"]} 
           id="messageInput" 
           name="messageInput"
@@ -41,6 +26,8 @@ export function ChatFooter({socket, sendMessageHandler, onMessageChange, current
           >
             SEND
             </button>
+            </>
+            }
         </div>
         )
 }

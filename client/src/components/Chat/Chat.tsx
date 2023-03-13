@@ -57,7 +57,11 @@ export function Chat(){
      .catch(err => console.log(err))
      
     }, [selectedUser])
- const onUserSelect = async (recipientId: string, recipientSocketId: string) => setSelectedUser([recipientId, recipientSocketId])
+ const onUserSelect = (recipientId: string, recipientSocketId: string) => setSelectedUser([recipientId, recipientSocketId])
+ const clearUserSelect = () => {
+    setMessagesData(oldData => {return {userOne: '', userTwo: '', transcript: []}})
+    setSelectedUser(oldSelection => [])
+ }
 
  const sendMessageHandler = async () => {
     // try{
@@ -86,14 +90,16 @@ export function Chat(){
 
     return(
         <div className={styles['chat-container']}>
-            <ChatBar socket={socket} onUserSelect={onUserSelect} />
+            <ChatBar socket={socket} onUserSelect={onUserSelect} clearUserSelect={clearUserSelect}/>
             <div className={styles['chat-main']}>
             <ChatHeader socket={socket} />
-            { selectedUser.length !== 0
-             ? <ChatBody messagesData={messagesData} userId={getFromStorage('id')}/>
-             : <h1>Loading...</h1>
-            }
-            <ChatFooter socket={socket} sendMessageHandler={sendMessageHandler} onMessageChange={onMessageChange} currentMessage={message}/>
+            <ChatBody messagesData={messagesData} userId={getFromStorage('id')}/>
+            <ChatFooter 
+            sendMessageHandler={sendMessageHandler} 
+            onMessageChange={onMessageChange} 
+            currentMessage={message}
+            activeUser={selectedUser}
+            />
             </div>
         </div>
     )
