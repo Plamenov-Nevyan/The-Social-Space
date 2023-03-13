@@ -20,6 +20,7 @@ type UserProps = {
 
 export function ChatBar({socket, onUserSelect}: ChatBarProps){
   const [activeUsers, setActiveUsers] = useState<UserProps[]>([])
+  const [currSelectedUser, setCurrSelectedUser] = useState('')
   const {getFromStorage} = useLocalStorage()
   let username = getFromStorage('nickname')
   useEffect(() => {
@@ -40,9 +41,13 @@ export function ChatBar({socket, onUserSelect}: ChatBarProps){
       {activeUsers.length > 1
        ? activeUsers.map(user => user.nickname !== username && <li 
        key={user.socketId} 
-       className={styles.user}
+       className={currSelectedUser === user.id
+        ? styles['user-active']
+        : styles.user
+      }
        id={`${user.id}/${user.socketId}`}
        onClick={(e) => {
+        setCurrSelectedUser(e.currentTarget.id.split('/')[0])
         onUserSelect(e.currentTarget.id.split('/')[0], e.currentTarget.id.split('/')[1])
        }}
        >

@@ -39,6 +39,17 @@
   color: wheat;
 }
 
+.user-active {
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    background-color: lightskyblue;
+    color: wheat;
+}
+
 .divider {
     height: 20px;
 }
