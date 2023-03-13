@@ -1,5 +1,5 @@
-import {registerUser} from "./services/authServices"
-import { UserProps } from "./types"
+import {saveSentMessage} from "./services/chatServices"
+import { UserProps, MessageProps } from "./types"
 import { Socket } from "socket.io"
 import express, { Express, Request } from "express"
 import env from "./config/envConfig"
@@ -38,6 +38,15 @@ socketIo.on('connection', (socket: Socket) => {
     socket.on('userSignUp',(data) => {
        activeUsers.push(data)
        socketIo.emit('sendListOfUsers', activeUsers)
+    })
+    socket.on('saveMessage', async (messageData: MessageProps) => {
+        let receiverSocket = messageData.receiverSocketId
+        let senderSocketId = messageData.senderSocketId
+        Reflect.deleteProperty(messageData, 'receiverSocketId')
+        Reflect.deleteProperty(messageData, 'senderSocketId')
+        let commData = await saveSentMessage(messageData)
+        socketIo.to(senderSocketId).emit('message', commData)
+        socket.to(receiverSocket).emit('message', commData)
     })
 })
 

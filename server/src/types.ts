@@ -7,7 +7,7 @@ export type UserProps = {
   nickname : string;
   interests: string[];
   description : string;
-  socketId : string;
+  socketId: string;
 } & UserPropsLogin
 
 export type UserPropsLogin = {
@@ -20,5 +20,7 @@ export type MessageProps = {
   sender: ObjectId,
   message: string,
   createdAt: string,
+  receiverSocketId: string;
+  senderSocketId: string;
 }
 

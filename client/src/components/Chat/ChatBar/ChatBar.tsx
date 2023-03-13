@@ -5,7 +5,7 @@ import { Socket } from "socket.io-client";
 
 type ChatBarProps = {
   socket : Socket
-  onUserSelect: (recipientId: string) => void
+  onUserSelect: (recipientId: string, recipientSocketId:string) => void
 }
 
 type UserProps = {
@@ -42,7 +42,9 @@ export function ChatBar({socket, onUserSelect}: ChatBarProps){
        key={user.socketId} 
        className={styles.user}
        id={`${user.id}/${user.socketId}`}
-       onClick={(e) => onUserSelect(e.currentTarget.id.split('/')[0])}
+       onClick={(e) => {
+        onUserSelect(e.currentTarget.id.split('/')[0], e.currentTarget.id.split('/')[1])
+       }}
        >
         {user.nickname}
        </li>

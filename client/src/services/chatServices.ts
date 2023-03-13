@@ -8,7 +8,8 @@ type MessageDataProps = {
     receiver : string,
     sender: string,
     message: string,
-    createdAt: string
+    createdAt: string,
+    receiverSocketId: string;
 }
 
 export const sendMessage = async (messageData: MessageDataProps) => {
