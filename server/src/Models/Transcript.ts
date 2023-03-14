@@ -25,7 +25,8 @@ const transcriptSchema = new Schema<Transcript>({
      receiver : {type: Types.ObjectId, ref: 'UserSchema'},
      sender : {type: Types.ObjectId, ref: 'UserSchema'},
      message: {type: String},
-     createdAt: {type: String}
+     createdAt: {type: String},
+     read: {type: Boolean}
     }
    ]
 })

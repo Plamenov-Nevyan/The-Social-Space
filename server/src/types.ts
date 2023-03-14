@@ -8,6 +8,7 @@ export type UserProps = {
   interests: string[];
   description : string;
   socketId: string;
+  id: string;
 } & UserPropsLogin
 
 export type UserPropsLogin = {
@@ -16,11 +17,16 @@ export type UserPropsLogin = {
 }
 
 export type MessageProps = {
-  receiver : ObjectId,
-  sender: ObjectId,
+  receiver : string,
+  sender: string,
   message: string,
   createdAt: string,
   receiverSocketId: string;
   senderSocketId: string;
+  read: boolean
 }
 
+export type UnreadMsgList = {
+  users : string[],
+  counts: number[]
+}

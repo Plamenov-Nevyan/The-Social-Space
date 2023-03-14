@@ -26,9 +26,10 @@ type CommsDataProps = {
 type ChatBodyProps = {
   messagesData : CommsDataProps,
   userId: string,
+  selectedUser: string[]
 }
 
-export function ChatBody({messagesData, userId} : ChatBodyProps){
+export function ChatBody({messagesData, userId, selectedUser} : ChatBodyProps){
 
   return (
 
@@ -50,7 +51,9 @@ export function ChatBody({messagesData, userId} : ChatBodyProps){
               <p>Username is typing...</p>
             </div>
             </>
-            : <h1>Select a user to chat with</h1>
+            : selectedUser.length > 0
+              ? <h1>Be the first one to say hi !</h1>
+              : <h1>Select a user to chat with</h1>
           }  
         </div>
         

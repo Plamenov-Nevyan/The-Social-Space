@@ -53,3 +53,13 @@
 .divider {
     height: 20px;
 }
+
+.badge_message {  
+    position: absolute;
+    top: 7px;
+    right: 80px;
+    padding: 1px 4px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }

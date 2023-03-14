@@ -3,12 +3,6 @@ import { useLocalStorage } from "../../../hooks/useLocalStorage"
 import styles from "./chatBar.module.css"
 import { Socket } from "socket.io-client";
 
-type ChatBarProps = {
-  socket : Socket
-  onUserSelect: (recipientId: string, recipientSocketId:string) => void
-  clearUserSelect: () => void
-}
-
 type UserProps = {
   nickname: string,
   firstName: string;
@@ -18,10 +12,26 @@ type UserProps = {
   accessToken: string;
   socketId : string;
 }
+type UnreadMsgList = {
+  users : string[],
+  counts: number[]
+}
 
-export function ChatBar({socket, onUserSelect, clearUserSelect}: ChatBarProps){
+type ChatBarProps = {
+  socket : Socket
+  onUserSelect: (recipientId: string, recipientSocketId:string) => void
+  clearUserSelect: () => void
+  currActiveUser: string
+}
+
+export function ChatBar({socket, onUserSelect, clearUserSelect, currActiveUser}: ChatBarProps){
   const [activeUsers, setActiveUsers] = useState<UserProps[]>([])
   const [currSelectedUser, setCurrSelectedUser] = useState('')
+  const [listOfUnreadMsg, setListOfUnreadMsg] = useState<UnreadMsgList>({
+    users: [],
+    counts: []
+  })
+
   const {getFromStorage} = useLocalStorage()
   let username = getFromStorage('nickname')
   useEffect(() => {
@@ -29,6 +39,15 @@ export function ChatBar({socket, onUserSelect, clearUserSelect}: ChatBarProps){
         setActiveUsers([...users])
     })
 }, [socket, activeUsers])
+
+useEffect(() => {
+  socket.on('getUnreadCount', (list: UnreadMsgList) => {
+     setListOfUnreadMsg({
+      users: [...list.users],
+      counts: [...list.counts]
+     })
+  })
+})
 
   return (
   <div className={styles.container}>
@@ -66,3 +85,5 @@ export function ChatBar({socket, onUserSelect, clearUserSelect}: ChatBarProps){
   </div>
   )
 }
+
+{/* <span className={styles.badge_message}>{unreadMessages}</span> */}

@@ -1,4 +1,4 @@
-import {saveSentMessage} from "./services/chatServices"
+import {saveSentMessage, getUnreadCount} from "./services/chatServices"
 import { UserProps, MessageProps } from "./types"
 import { Socket } from "socket.io"
 import express, { Express, Request } from "express"
@@ -26,9 +26,6 @@ app.use(routes)
 
 socketIo.on('connection', (socket: Socket) => {
     console.log(`${socket.id} has connected`)
-    socket.on('message', (receivedData) => {
-        socketIo.emit('messageResponse', receivedData)
-    })
     socket.on('disconnect', () => {
 
         activeUsers = activeUsers.filter(user => user.socketId !== socket.id)
@@ -40,13 +37,22 @@ socketIo.on('connection', (socket: Socket) => {
        socketIo.emit('sendListOfUsers', activeUsers)
     })
     socket.on('saveMessage', async (messageData: MessageProps) => {
+        try{
         let receiverSocket = messageData.receiverSocketId
         let senderSocketId = messageData.senderSocketId
         Reflect.deleteProperty(messageData, 'receiverSocketId')
         Reflect.deleteProperty(messageData, 'senderSocketId')
         let commData = await saveSentMessage(messageData)
-        socketIo.to(senderSocketId).emit('message', commData)
-        socket.to(receiverSocket).emit('message', commData)
+        
+        socketIo.to(senderSocketId).emit('updateCommData', commData)
+        socket.to(receiverSocket).emit('message', [commData, messageData.sender])
+        }catch(err){
+         socketIo.to(socket.id).emit('messageError', {message: 'Message was not sent successfully!'})
+        }
+    })
+    socket.on('getUnreadCount', async (userId) => {
+       let list = await getUnreadCount(activeUsers, userId)
+       socketIo.to(socket.id).emit('getUnreadCount', (list))
     })
 })
 
