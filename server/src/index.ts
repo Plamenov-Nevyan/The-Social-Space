@@ -56,7 +56,7 @@ socketIo.on('connection', (socket: Socket) => {
        socketIo.to(socket.id).emit('saveUnreadCount', (list))
     })
     socket.on('markAsRead', async (usersData) => {
-      await markAsRead(usersData)
+       await markAsRead(usersData)
     })
 })
 

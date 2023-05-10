@@ -10,16 +10,19 @@ type ChatBarProps = {
   clearUserSelect: () => void
   currActiveUser: string
   userId: string
+  newUnreadMessages: UnreadTransformedList
 }
 
-export function ChatBar({socket, onUserSelect, clearUserSelect, currActiveUser, userId}: ChatBarProps){
+export function ChatBar({socket, onUserSelect, clearUserSelect, currActiveUser, userId, newUnreadMessages}: ChatBarProps){
   const [activeUsers, setActiveUsers] = useState<UserProps[]>([])
   const [currSelectedUser, setCurrSelectedUser] = useState('')
-  const [listOfUnreadMsg, setListOfUnreadMsg] = useState<UnreadTransformedList>({
-})
-
+  const [listOfUnreadMsg, setListOfUnreadMsg] = useState<UnreadTransformedList>({})
+  
   const {getFromStorage, getAllFromStorage} = useLocalStorage()
   let username = getFromStorage('nickname')
+  useEffect(() => {
+    setListOfUnreadMsg(oldList => {return {...oldList, ...newUnreadMessages}})
+  }, [newUnreadMessages])
   useEffect(() => {
     socket.emit('userSignUp', {...getAllFromStorage(), socketId : socket.id})
   }, [])
@@ -51,8 +54,8 @@ useEffect(() => {
     }
     setListOfUnreadMsg({...transformedList})
 })
-})
-console.log(listOfUnreadMsg)
+}, [])
+
   return (
   <div className={styles.container}>
     <div className={styles["header-container"]}>

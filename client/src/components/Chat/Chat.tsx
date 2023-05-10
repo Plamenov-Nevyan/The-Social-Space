@@ -7,6 +7,7 @@ import {ChatBar} from "./ChatBar/ChatBar";
 import {ChatBody} from "./ChatBody/ChatBody";
 import {ChatFooter} from "./ChatFooter/ChatFooter";
 import {ChatHeader} from "./ChatHeader/ChatHeader";
+import { UnreadTransformedList } from "../../types";
 type UserProps = {
     firstName: string,
     lastName: string;
@@ -49,7 +50,7 @@ export function Chat(){
     const [selectedUser, setSelectedUser] = useState<string[]>([])
     const [message, setMessage] = useState('')
     const [error, setError] = useState('')
-    const [unreadMessages, setUnreadMessages] = useState(0)
+    const [unreadMessages, setUnreadMessages] = useState<UnreadTransformedList>({})
     useEffect(() => {
         socket.on('message', (receivedData: SocketDataProps) => {{
             console.log(selectedUser)
@@ -57,11 +58,18 @@ export function Chat(){
             if(selectedUser.length !== 0 && receivedData[1] === selectedUser[0]){
                 setMessagesData({...receivedData[0]})
             }
-            // else{setMessagesData({userOne: '', userTwo: '', transcript: []})}
+            else{
+                setUnreadMessages(oldData => {
+                return Object.values(oldData).length > 0 
+                ? oldData.hasOwnProperty(receivedData[1])
+                 ? {...oldData, [receivedData[1]] : oldData[receivedData[1]] + 1 } 
+                 : {...oldData, [receivedData[1]] : 1}
+                : {[receivedData[1]] : 1}
+                })
+            }
         }}
         )
     }, [socket])
-
     useEffect(() => {
         socket.on('updateCommData', (receivedData) => {{
             setMessagesData({...receivedData})
@@ -86,7 +94,13 @@ export function Chat(){
      .catch(err => console.log(err))
      
     }, [selectedUser])
- const onUserSelect = (recipientId: string, recipientSocketId: string) => setSelectedUser([recipientId, recipientSocketId])
+ const onUserSelect = (recipientId: string, recipientSocketId: string) => {
+    setSelectedUser([recipientId, recipientSocketId])
+    if(unreadMessages.hasOwnProperty(recipientId)){setUnreadMessages(oldUnreadMessages => {
+        Reflect.deleteProperty(oldUnreadMessages, recipientId)
+        return {...oldUnreadMessages}
+    })}
+}
  const clearUserSelect = () => {
     setMessagesData({userOne: '', userTwo: '', transcript: []})
     setSelectedUser(oldSelection => [])
@@ -115,6 +129,7 @@ export function Chat(){
             clearUserSelect={clearUserSelect} 
             currActiveUser={selectedUser[0]}
             userId={getFromStorage('id')}
+            newUnreadMessages={unreadMessages}
             />
             <div className={styles['chat-main']}>
             <ChatHeader socket={socket} />

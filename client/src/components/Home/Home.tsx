@@ -1,6 +1,5 @@
 import {useNavigate} from "react-router-dom";
 import { FormEvent, useState, useContext} from "react";
-import { SocketContext } from "../../contexts/SocketContext";
 import { AccountForm } from "./Forms/AccountForm";
 import { ProfileDataForm } from "./Forms/ProfileDataForm";
 import { useMultistepForm } from "../../hooks/useMultistepForm";
@@ -37,7 +36,6 @@ let initialData: FormData = {
 export function Home(){
   const {setToStorage} = useLocalStorage()
     const navigate = useNavigate()
-    const socket = useContext(SocketContext)
     const [data, setData] = useState(initialData);
     const [loginOrRegister, setLoginOrRegister] = useState('register')
     const [error, setError] = useState('')
@@ -47,7 +45,6 @@ export function Home(){
        try{
        let newUserData =  loginOrRegister === 'register' ? await registerUser(data) : await loginUser({email:data.email, password: data.password})
        setToStorage(newUserData)
-      //  socket.emit('userSignUp', {...newUserData, socketId : socket.id})
        navigate('/chat')
        }catch(err){
         setError(err.message)
