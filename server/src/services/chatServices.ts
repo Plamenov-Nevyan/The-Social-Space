@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import TranscriptSchema from "../Models/Transcript";
 import { MessageProps, UnreadMsgList } from "../types";
-import { UserProps } from "../types";
+import { UserProps, usersData } from "../types";
 
 export const saveSentMessage = async (messageData: MessageProps) => {
     try{
@@ -30,7 +30,7 @@ try{
         {userOne: recipient, userTwo: initiator}
     ]}).populate('transcript.receiver').populate('transcript.sender')
     if(communicationData.length > 0){
-        await markAsRead(initiator, communicationData[0]._id)
+        // await markAsRead(initiator, communicationData[0]._id)
         return communicationData[0]
     }else {
         return {notExisting : true}
@@ -40,11 +40,18 @@ try{
  }
 }
 
-export const markAsRead = async (userId: string, commDataId: Types.ObjectId) => {
+export const markAsRead = async (usersData: usersData) => {
     try{
-    let communicationData = await TranscriptSchema.findById(commDataId)
-    communicationData?.transcript.forEach(message => {
-        if(!message.read && message.receiver === userId){message.read = true}
+    let communicationData = await TranscriptSchema.findOne({$or: [
+        {userOne: usersData.userId, userTwo: usersData.selectedUserId},
+        {userOne: usersData.selectedUserId, userTwo: usersData.userId}
+    ]})
+    communicationData?.transcript.forEach((message) => {
+        console.log(message.receiver)
+        console.log(usersData.userId)
+        if(!message.read && message.receiver == usersData.userId.toString()){
+            message.read = true
+        }
     })
     await communicationData?.save()
   }catch(err){
@@ -57,20 +64,21 @@ export const getUnreadCount = async (listOfActiveUsers: UserProps[], userId: str
     users : [],
     counts: []
   }
+
   for(let user of listOfActiveUsers){
+    if(user.id === userId){continue}
     let transcriptDoc = await TranscriptSchema.findOne({$or: [
         {userOne: userId, userTwo: user.id},
         {userOne: user.id, userTwo: userId}
     ]})
     let unreadCount = 0
     transcriptDoc?.transcript.forEach(message => {
-        if(message.receiver === userId && !message.read){unreadCount++}
+        if(message.receiver == userId && !message.read){unreadCount++}
     })
     if(unreadCount !== 0){
         list.users.push(user.id)
         list.counts.push(unreadCount)
     }
   }
-
   return list
 }

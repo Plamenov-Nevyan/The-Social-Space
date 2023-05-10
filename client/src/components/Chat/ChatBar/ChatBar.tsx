@@ -1,54 +1,58 @@
 import { useState, useEffect } from "react"
-import { useLocalStorage } from "../../../hooks/useLocalStorage"
+import { useLocalStorage} from "../../../hooks/useLocalStorage"
 import styles from "./chatBar.module.css"
 import { Socket } from "socket.io-client";
-
-type UserProps = {
-  nickname: string,
-  firstName: string;
-  lastName: string;
-  email: string;
-  id: string;
-  accessToken: string;
-  socketId : string;
-}
-type UnreadMsgList = {
-  users : string[],
-  counts: number[]
-}
+import { UserProps, UnreadMsgList, UnreadTransformedList } from "../../../types";
 
 type ChatBarProps = {
   socket : Socket
   onUserSelect: (recipientId: string, recipientSocketId:string) => void
   clearUserSelect: () => void
   currActiveUser: string
+  userId: string
 }
 
-export function ChatBar({socket, onUserSelect, clearUserSelect, currActiveUser}: ChatBarProps){
+export function ChatBar({socket, onUserSelect, clearUserSelect, currActiveUser, userId}: ChatBarProps){
   const [activeUsers, setActiveUsers] = useState<UserProps[]>([])
   const [currSelectedUser, setCurrSelectedUser] = useState('')
-  const [listOfUnreadMsg, setListOfUnreadMsg] = useState<UnreadMsgList>({
-    users: [],
-    counts: []
-  })
+  const [listOfUnreadMsg, setListOfUnreadMsg] = useState<UnreadTransformedList>({
+})
 
-  const {getFromStorage} = useLocalStorage()
+  const {getFromStorage, getAllFromStorage} = useLocalStorage()
   let username = getFromStorage('nickname')
   useEffect(() => {
+    socket.emit('userSignUp', {...getAllFromStorage(), socketId : socket.id})
+  }, [])
+  useEffect(() => {
     socket.on('sendListOfUsers', (users) => {
+      console.log(users)
         setActiveUsers([...users])
     })
 }, [socket, activeUsers])
 
 useEffect(() => {
-  socket.on('getUnreadCount', (list: UnreadMsgList) => {
-     setListOfUnreadMsg({
-      users: [...list.users],
-      counts: [...list.counts]
-     })
-  })
-})
+  socket.emit('getUnreadCount', userId)
+},[socket, currSelectedUser])
 
+useEffect(() => {
+if(currSelectedUser === ''){return}
+socket.emit('markAsRead', ({userId : getFromStorage('id'), selectedUserId: currSelectedUser}))
+}, [currSelectedUser])
+
+useEffect(() => {
+  socket.on('saveUnreadCount', (list: UnreadMsgList) => {
+    let transformedList: UnreadTransformedList = {
+      
+    }
+    for (let i = 0; i < list.users.length; i++){
+      for(let j = 0; j <= i; j++){
+        transformedList[list.users[i]] = list.counts[j]
+      }
+    }
+    setListOfUnreadMsg({...transformedList})
+})
+})
+console.log(listOfUnreadMsg)
   return (
   <div className={styles.container}>
     <div className={styles["header-container"]}>
@@ -59,7 +63,7 @@ useEffect(() => {
     <div className={styles.divider}></div>
     <ul className={styles["users-list"]}>
       {activeUsers.length > 1
-       ? activeUsers.map(user => user.nickname !== username && <li 
+       ? activeUsers.map((user, index) => user.nickname !== username && <li 
        key={user.socketId} 
        className={currSelectedUser === user.id
         ? styles['user-active']
@@ -77,6 +81,10 @@ useEffect(() => {
        }}
        >
         {user.nickname}
+        {Object.values(listOfUnreadMsg).length > 0
+          ? listOfUnreadMsg.hasOwnProperty(user.id) && <span className={styles.badge_message}>{listOfUnreadMsg[user.id]}</span>
+          : null
+        }
        </li>
        )
        : <h3>No one is online at the moment...</h3>
@@ -85,5 +93,3 @@ useEffect(() => {
   </div>
   )
 }
-
-{/* <span className={styles.badge_message}>{unreadMessages}</span> */}

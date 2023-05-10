@@ -38,12 +38,14 @@ export function useLocalStorage(){
 
  const getFromStorage = (key:string) => storedData[key]
 
+ const getAllFromStorage = () => storedData
 
  return {
     setToStorage,
    //  removeFromStorage,
     getFromStorage,
-    deleteSession
+    deleteSession,
+    getAllFromStorage
  }
 
 }

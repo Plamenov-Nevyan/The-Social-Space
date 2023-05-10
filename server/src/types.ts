@@ -30,3 +30,8 @@ export type UnreadMsgList = {
   users : string[],
   counts: number[]
 }
+
+export type usersData = {
+  userId : string,
+  selectedUserId: string
+}

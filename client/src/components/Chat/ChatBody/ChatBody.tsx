@@ -2,27 +2,29 @@ import styles from "./chatBody.module.css"
 import {useState} from 'react'
 import {MessageReceived} from "./MessageReceived"
 import {MessageSent} from "./MessageSent"
-type UserProps = {
-  firstName: string,
-  lastName: string;
-  age: string;
-  nickname : string;
-  interests: string[];
-  description : string;
-  email: string;
-  _id: string
-}
-type MessageDataProps = {
-  receiver : UserProps,
-  sender: UserProps,
-  message: string,
-  createdAt: string,
-}
-type CommsDataProps = {
-  userOne: UserProps | {},
-  userTwo: UserProps | {},
-  transcript: MessageDataProps[] | []
-}
+import {CommsDataProps} from "../../../types"
+
+// type UserProps = {
+//   firstName: string,
+//   lastName: string;
+//   age: string;
+//   nickname : string;
+//   interests: string[];
+//   description : string;
+//   email: string;
+//   _id: string
+// }
+// type MessageDataProps = {
+//   receiver : UserProps,
+//   sender: UserProps,
+//   message: string,
+//   createdAt: string,
+// }
+// type CommsDataProps = {
+//   userOne: UserProps | {},
+//   userTwo: UserProps | {},
+//   transcript: MessageDataProps[] | []
+// }
 type ChatBodyProps = {
   messagesData : CommsDataProps,
   userId: string,

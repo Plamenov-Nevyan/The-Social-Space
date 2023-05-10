@@ -1,4 +1,4 @@
-import {saveSentMessage, getUnreadCount} from "./services/chatServices"
+import {saveSentMessage, getUnreadCount, markAsRead} from "./services/chatServices"
 import { UserProps, MessageProps } from "./types"
 import { Socket } from "socket.io"
 import express, { Express, Request } from "express"
@@ -34,6 +34,7 @@ socketIo.on('connection', (socket: Socket) => {
     })
     socket.on('userSignUp',(data) => {
        activeUsers.push(data)
+       console.log(activeUsers)
        socketIo.emit('sendListOfUsers', activeUsers)
     })
     socket.on('saveMessage', async (messageData: MessageProps) => {
@@ -52,7 +53,10 @@ socketIo.on('connection', (socket: Socket) => {
     })
     socket.on('getUnreadCount', async (userId) => {
        let list = await getUnreadCount(activeUsers, userId)
-       socketIo.to(socket.id).emit('getUnreadCount', (list))
+       socketIo.to(socket.id).emit('saveUnreadCount', (list))
+    })
+    socket.on('markAsRead', async (usersData) => {
+      await markAsRead(usersData)
     })
 })
 

@@ -53,11 +53,11 @@ export function Chat(){
     useEffect(() => {
         socket.on('message', (receivedData: SocketDataProps) => {{
             console.log(selectedUser)
-            console.log(receivedData[1])
+            console.log(receivedData)
             if(selectedUser.length !== 0 && receivedData[1] === selectedUser[0]){
                 setMessagesData({...receivedData[0]})
             }
-            else{setMessagesData({userOne: '', userTwo: '', transcript: []})}
+            // else{setMessagesData({userOne: '', userTwo: '', transcript: []})}
         }}
         )
     }, [socket])
@@ -114,6 +114,7 @@ export function Chat(){
             onUserSelect={onUserSelect} 
             clearUserSelect={clearUserSelect} 
             currActiveUser={selectedUser[0]}
+            userId={getFromStorage('id')}
             />
             <div className={styles['chat-main']}>
             <ChatHeader socket={socket} />

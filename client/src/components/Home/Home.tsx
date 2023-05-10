@@ -47,7 +47,7 @@ export function Home(){
        try{
        let newUserData =  loginOrRegister === 'register' ? await registerUser(data) : await loginUser({email:data.email, password: data.password})
        setToStorage(newUserData)
-       socket.emit('userSignUp', {...newUserData, socketId : socket.id})
+      //  socket.emit('userSignUp', {...newUserData, socketId : socket.id})
        navigate('/chat')
        }catch(err){
         setError(err.message)
