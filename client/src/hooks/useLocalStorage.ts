@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {UserProps} from "../types"
 // type LocalStorageItems = {
 //   session : {
 //     firstName: string;
@@ -13,12 +14,20 @@ import {useState} from "react";
 //   }
 // }
 
+type GetStorageData = (key : string) => any
+type GetAllStorageData = () => UserProps
+
 export function useLocalStorage(){
   const [storedData, setStoredData] = useState(() => JSON.parse(localStorage.getItem('session') || '{}'))
 
- const setToStorage = (data:object) => {
+ const setToStorage = (data:object): void => {
    localStorage.setItem("session", JSON.stringify({...data}))
    setStoredData({...data})
+ }
+
+ const replaceInStorage = (key: string, newData: any): void => {
+  localStorage.setItem("session", JSON.stringify({...storedData, [key] : newData}))
+   setStoredData((oldData: UserProps) => {return {...oldData, [key] : newData}})
  }
 
 //  const removeFromStorage = (keyOrKeys) => {
@@ -31,21 +40,22 @@ export function useLocalStorage(){
 //    localStorage.setItem("session", JSON.stringify({...storedData}))
 //  }
 
- const deleteSession = () => {
+ const deleteSession = (): void => {
    localStorage.removeItem('session')
    setStoredData({})
  }
 
- const getFromStorage = (key:string) => storedData[key]
+ const getFromStorage: GetStorageData = (key:string) => storedData[key]
 
- const getAllFromStorage = () => storedData
+ const getAllFromStorage: GetAllStorageData = () => storedData
 
  return {
     setToStorage,
    //  removeFromStorage,
     getFromStorage,
     deleteSession,
-    getAllFromStorage
+    getAllFromStorage,
+    replaceInStorage
  }
 
 }

@@ -1,4 +1,5 @@
 import {saveSentMessage, getUnreadCount, markAsRead} from "./services/chatServices"
+import { getNewProfPicture } from "./services/profileServices"
 import { UserProps, MessageProps } from "./types"
 import { Socket } from "socket.io"
 import express, { Express, Request } from "express"
@@ -57,6 +58,10 @@ socketIo.on('connection', (socket: Socket) => {
     })
     socket.on('markAsRead', async (usersData) => {
        await markAsRead(usersData)
+    })
+    socket.on('getNewProfPicture', async (userId) => {
+      let newProfPic = await getNewProfPicture(userId)
+      socketIo.to(socket.id).emit('receiveNewProfPicture', (newProfPic))
     })
 })
 

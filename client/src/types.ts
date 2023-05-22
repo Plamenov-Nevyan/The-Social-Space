@@ -5,6 +5,7 @@ export type UserProps = {
     email: string;
     id: string;
     accessToken: string;
+    profilePicture: string,
     socketId : string;
   }
   type UserPropsForChatBody = {

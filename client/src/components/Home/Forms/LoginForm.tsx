@@ -1,4 +1,5 @@
 import { FormWrapper } from "./FormsWrapper";
+import styles from "../home.module.css"
 
 type AccountData = {
     email: string;
@@ -33,7 +34,7 @@ export function LoginForm({email, password, updateFormState}: AccountFormProps){
             })
           }
           />
-          <button>Login</button>
+          <button className={styles["prev-btn"]}>Login <i className="fa-solid fa-arrow-right-to-bracket"></i></button>
         </FormWrapper>
       );
 }

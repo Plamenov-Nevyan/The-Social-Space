@@ -20,8 +20,24 @@
     cursor: pointer;
     transition: 0.5s ease-in-out;
 }
+.my-profile-btn {
+    padding: 12px 12px;
+    margin: 10px 10px 10px auto;
+    font-size: 20px;
+    background-color: wheat;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+}
 
 .leave-btn:hover {
+    background-color: black;
+    color: wheat;
+}
+
+.my-profile-btn:hover {
     background-color: black;
     color: wheat;
 }

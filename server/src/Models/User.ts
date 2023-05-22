@@ -8,6 +8,7 @@ interface User {
     description : string;
     email: string;
     password: string;
+    profilePicture: string;
 }
 
 const userSchema = new Schema<User>({
@@ -19,6 +20,7 @@ const userSchema = new Schema<User>({
     description : {type : String, required : true},
     email: {type : String, required : true},
     password: {type : String, required : true},
+    profilePicture: {type: String, default: "https://drive.google.com/uc?export=view&id=1iMt8_whGlwVVfGofzNKVf7O9bwrNdjnt"}
 }, {timestamps: true})
 
 const UserSchema = model<User>('UserSchema', userSchema)

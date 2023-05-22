@@ -123,11 +123,22 @@ export function Home(){
 
         <div id={styles.buttons_container}>
           {!isFirstStep && (
-            <button type="button" onClick={previousStep}>
-              Previous
+            <button 
+            className={styles["prev-btn"]} 
+            type="button" 
+            onClick={previousStep}
+            >
+              <i className="fa-solid fa-arrow-left"></i> Previous
             </button>
           )}
-          <button type="submit">{isLastStep ? "Finish" : "Next"}</button>
+          <button 
+          className={styles["next-btn"]} 
+          type="submit">
+            {isLastStep 
+            ? <>Finish <i className="fa-solid fa-check"></i></> 
+            : <>Next <i className="fa-solid fa-arrow-right"></i></>
+            }
+            </button>
         </div>
       </form>
     : <form onSubmit={submitHandler}>
