@@ -29,7 +29,7 @@ export const loginUser = async (userData: UserPropsLogin) => {
     if(user){
         let isPassCorrect = await bcryptjs.compare(userData.password, user?.password)
         if(isPassCorrect){
-            let session = createSession(user.nickname, user.firstName, user.lastName, user.email, user._id, user.profilePicture)
+            let session = createSession(user.nickname, user.firstName, user.lastName, user.email, user._id, user.profilePicture, user.description, user.interests)
             return session
         }else {
             throw new Error('Email and/or password is incorrect!')
@@ -39,7 +39,7 @@ export const loginUser = async (userData: UserPropsLogin) => {
     }
 }
 
-export const createSession = (nickname: string, firstName: string, lastName: string, email: string, id: Types.ObjectId, profilePicture:string) => {
+export const createSession = (nickname: string, firstName: string, lastName: string, email: string, id: Types.ObjectId, profilePicture:string, description:string, interests: string[]) => {
     const payload = {
         nickname,
         firstName,
@@ -54,6 +54,9 @@ export const createSession = (nickname: string, firstName: string, lastName: str
         lastName,
         email, 
         id,
+        profilePicture,
+        description,
+        interests,
         accessToken
     }
 }

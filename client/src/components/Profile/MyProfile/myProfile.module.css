@@ -99,3 +99,66 @@
     right: -3%;
     top: 30%;
 }
+
+.descr-and-interests{
+    display: flex;
+    justify-content: space-evenly;
+    grid-column-start: 1;
+    grid-column-end: two;
+    height: fit-content;
+    background-color: #f4f4f4;
+    padding: 3em;
+}
+
+.descr-and-interests p {
+    height: 100%;
+    width: 50%;
+    font-size: 1.3em;
+    word-break: break-word;
+}
+
+.descr-and-interests ul {
+    list-style-type: none;
+    height: 100%;
+    width: 50%;
+    font-size: 1.3em;
+    word-break: break-word;
+    text-align: justify;
+    display: inline-flex;
+    justify-content: space-evenly;
+    font-size: 1.4em;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.upload-carousel-img  {
+    width: 20%;
+    padding: 0.7em 0.7em;
+    grid-column-start: 1;
+    grid-column-end: two;
+    border-radius: 22px;
+    font-size: 1.3em;
+    background-color: #A4CDFF;
+    border: none;
+    box-shadow: 2px 2px lightgray;
+    margin: 0.4em 1em;
+    z-index: 1;
+}
+
+.upload-carousel-img input {
+    opacity: 0;
+    z-index: 2;
+}
+.upload-carousel-img i {
+    position: absolute;
+    top: 1em;
+    right: 3em;
+    font-size: 2em;
+}
+
+.upload-carousel-img:hover, .upload-carousel-img i:hover  { 
+ transition: ease-in-out 0.3s;
+ cursor:pointer;
+color: #F4F4F4;
+
+}

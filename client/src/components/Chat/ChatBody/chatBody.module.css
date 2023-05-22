@@ -46,3 +46,11 @@
     font-style: italic;
     margin-left: 5px ;
   }
+
+  .chat-welcome-header {
+    text-align: center;
+    padding: 0.6em 0.6em;
+    background-color: #f4f4f4;
+    color: #3C764E;
+    font-weight: normal;
+  }

@@ -28,11 +28,6 @@ export const MyProfile = () => {
      console.log(userData)
     }, [socket])
 
-    // const onFileValueChange = (e:ChangeEvent<HTMLInputElement>) => {
-    //     e.preventDefault()
-    //     e.target.files instanceof FileList && setFileValue(e.target.files[0])   
-    // }
-
     return (
         <div className={styles.container}>
             <div className={styles["cover-pic-container"]}>
@@ -49,8 +44,23 @@ export const MyProfile = () => {
                </label>
                <input type="file" id="upload-prof-pic-input" onChange={(e) => onProfilePicSubmit(e)}/>
                </div>
+               <div className={styles["descr-and-interests"]}>
+                <h4>About me:</h4>
+               <p className={styles["desr-para"]}>
+                {userData.description}
+               </p>
+               <h4>I'm interested in:</h4>
+               <ul>
+                {
+                    userData.interests.map((interest) => <li>
+                        {interest}
+                    </li>)
+                }
+               </ul>
+               </div>
             <div className={styles["carousel-container"]}>
             <Carousel />
+            <button className={styles["upload-carousel-img"]}>Upload picture <i className="fa-brands fa-firefox-browser"></i><input type="file" /></button>
             </div>
         </div>
     )

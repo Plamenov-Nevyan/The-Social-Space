@@ -6,6 +6,8 @@ export type UserProps = {
     id: string;
     accessToken: string;
     profilePicture: string,
+    description: string,
+    interests: string[],
     socketId : string;
   }
   type UserPropsForChatBody = {

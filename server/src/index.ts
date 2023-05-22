@@ -52,16 +52,22 @@ socketIo.on('connection', (socket: Socket) => {
          socketIo.to(socket.id).emit('messageError', {message: 'Message was not sent successfully!'})
         }
     })
-    socket.on('getUnreadCount', async (userId) => {
+    socket.on('getUnreadCount', async (userId: string) => {
        let list = await getUnreadCount(activeUsers, userId)
        socketIo.to(socket.id).emit('saveUnreadCount', (list))
     })
     socket.on('markAsRead', async (usersData) => {
        await markAsRead(usersData)
     })
-    socket.on('getNewProfPicture', async (userId) => {
+    socket.on('getNewProfPicture', async (userId: string) => {
       let newProfPic = await getNewProfPicture(userId)
       socketIo.to(socket.id).emit('receiveNewProfPicture', (newProfPic))
+    })
+    socket.on('iAmTyping', (recipientSocketId: string) => {
+        socketIo.to(recipientSocketId).emit('userIsTyping')
+    })
+    socket.on('iStoppedTyping', (recipientSocketId: string) => {
+        socketIo.to(recipientSocketId).emit('userStoppedTyping')
     })
 })
 

@@ -35,19 +35,20 @@
 }
 
 .user:hover {
-  background-color: lightskyblue;
-  color: wheat;
+  background-color: #f4f4f4;
+  color: #3C764E;
+  width: 98%;
 }
 
 .user-active {
-    width: 100%;
+    width: 98%;
     font-size: 20px;
     margin-bottom: 5px;
     margin-left: 5px;
     cursor: pointer;
     transition: 0.2s ease-in-out;
-    background-color: lightskyblue;
-    color: wheat;
+    background-color: #f4f4f4;
+    color: #3C764E;
 }
 
 .divider {
@@ -60,4 +61,11 @@
     border-radius: 50%;
     background: red;
     color: white;
+  }
+
+  .active-users-header {
+    padding-top: 0;
+    margin: 0 auto;
+    color: #3C764E;
+    font-weight: normal;
   }
