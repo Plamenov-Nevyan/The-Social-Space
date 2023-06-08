@@ -6,6 +6,8 @@ export type UserProps = {
     id: string;
     accessToken: string;
     profilePicture: string,
+    coverPicture: string,
+    carouselPictures: CarouselPicture[],
     description: string,
     interests: string[],
     socketId : string;
@@ -46,4 +48,24 @@ export type UserProps = {
     userOne: string,
     userTwo: string,
     transcript: MessageDataPropsForChatBody[] | []
+  }
+
+  export type CarouselPicture = {
+    src: string,
+    caption: string,
+  }
+
+  export type CarouselPictureReplacements = {
+    carouselPictures : CarouselPicture[]
+  }
+
+  export type ProfileDataProps = {
+    firstName: string,
+    lastName: string,
+    nickname: string,
+    profilePicture: string,
+    coverPicture: string,
+    carouselPictures: CarouselPicture[] | []
+    description: string,
+    interests: string[] | []
   }

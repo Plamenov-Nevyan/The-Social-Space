@@ -1,5 +1,5 @@
 import {saveSentMessage, getUnreadCount, markAsRead} from "./services/chatServices"
-import { getNewProfPicture } from "./services/profileServices"
+import { getNewProfPicture, getProfileData, getNewCarouselPic } from "./services/profileServices"
 import { UserProps, MessageProps } from "./types"
 import { Socket } from "socket.io"
 import express, { Express, Request } from "express"
@@ -35,7 +35,6 @@ socketIo.on('connection', (socket: Socket) => {
     })
     socket.on('userSignUp',(data) => {
        activeUsers.push(data)
-       console.log(activeUsers)
        socketIo.emit('sendListOfUsers', activeUsers)
     })
     socket.on('saveMessage', async (messageData: MessageProps) => {
@@ -61,6 +60,7 @@ socketIo.on('connection', (socket: Socket) => {
     })
     socket.on('getNewProfPicture', async (userId: string) => {
       let newProfPic = await getNewProfPicture(userId)
+      console.log(newProfPic)
       socketIo.to(socket.id).emit('receiveNewProfPicture', (newProfPic))
     })
     socket.on('iAmTyping', (recipientSocketId: string) => {
@@ -68,6 +68,17 @@ socketIo.on('connection', (socket: Socket) => {
     })
     socket.on('iStoppedTyping', (recipientSocketId: string) => {
         socketIo.to(recipientSocketId).emit('userStoppedTyping')
+    })
+
+    socket.on('getProfileData', async (userId: string) => {
+        let data = await getProfileData(userId)
+        socketIo.to(socket.id).emit('receiveProfileData', (data))
+    })
+
+    socket.on('getNewCarouselPicture', async (userId: string) => {
+        let picture = await getNewCarouselPic(userId)
+        console.log(picture)
+        socketIo.to(socket.id).emit('receiveNewCarouselPic', (picture))
     })
 })
 

@@ -1,43 +1,39 @@
 .container {
-    box-sizing: border-box;
-    display: grid;
-    grid-template-rows: 5fr 5fr 5fr;
-    grid-template-columns: 5fr 5fr;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 100vw;
+    justify-content: center;
 }
 .cover-pic {
     width: 100%;
-    height: 100%
+    height: auto;
 }
 
 .cover-pic-container {
     width: 100%;
-    height: 200px;
-    grid-row-start: 1;
-    grid-column-start: 1;
-    grid-column-end: two;
-    position: relative;
+    min-height: 15rem;
     top: -13%;
-    z-index: -1;
+    flex: 1 1 100%;
 }
 
 .carousel-container  {
-    display: grid;
-    grid-row-start: 3;
-    grid-row-end: 3;
-    grid-column-start: 1;
-    grid-column-end: two;
-    grid-template-columns: 2fr 2fr;
-    grid-template-rows: 2fr 2fr;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 1 100%;
+    justify-content: center;
+    gap: 1.3em;
+}
+
+.carousel-container h1 {
+    grid-column-start: 2;
+    place-self: center;
 }
 
 .profile-pic-container {
-    grid-column-start: 1;
-    grid-column-end: two;
     width: 26%;
     height: 90%;
     display: flex;
-    grid-row-start: 1;
-    place-self: center;
+    flex-shrink: 1;
 }
 
 .profile-pic {
@@ -102,12 +98,14 @@
 
 .descr-and-interests{
     display: flex;
-    justify-content: space-evenly;
-    grid-column-start: 1;
-    grid-column-end: two;
+    gap: 3em;
+    flex-wrap: wrap;
+    height: -moz-fit-content;
     height: fit-content;
     background-color: #f4f4f4;
     padding: 3em;
+    align-items: baseline;
+    flex: 1 1 100%;
 }
 
 .descr-and-interests p {
@@ -115,6 +113,7 @@
     width: 50%;
     font-size: 1.3em;
     word-break: break-word;
+    margin-left: 0.3em;
 }
 
 .descr-and-interests ul {
@@ -122,13 +121,18 @@
     height: 100%;
     width: 50%;
     font-size: 1.3em;
-    word-break: break-word;
     text-align: justify;
     display: inline-flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
+    gap: 0.4em;
     font-size: 1.4em;
     flex-wrap: wrap;
-    flex: 1;
+    flex: 1 1;
+}
+.descr-and-interests ul li {
+    background-color: #A4CDFF;
+    border-radius: 0.5em;
+    padding: 0.2em;
 }
 
 .upload-carousel-img  {
@@ -145,20 +149,66 @@
     z-index: 1;
 }
 
-.upload-carousel-img input {
-    opacity: 0;
-    z-index: 2;
-}
-.upload-carousel-img i {
-    position: absolute;
-    top: 1em;
-    right: 3em;
-    font-size: 2em;
-}
 
 .upload-carousel-img:hover, .upload-carousel-img i:hover  { 
  transition: ease-in-out 0.3s;
  cursor:pointer;
 color: #F4F4F4;
 
+}
+
+.upload-carousel-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-width: 31rem;
+    height: auto;
+    grid-column-start: 2;
+    place-self: center;
+    gap: 0.5em;
+    padding: 2em;
+    background-color: #F7E5C3;
+    border-radius: 1.5em;
+    box-shadow: 0 0 1em 1em rgba(0, 0, 0, 0.1);
+}
+
+.upload-carousel-form label {
+    font-weight: bold;
+}
+
+.upload-carousel-caption, .upload-carousel-img {
+    flex: 1 2 45%;
+    padding: 1.1em;
+    text-align: center;
+    width: 12rem;
+    max-height: 4em;
+}
+
+.confirm-prof-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 0 13em;
+    gap: 0.3em;
+}
+
+.confirm-prof-container {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.confirm-btn {
+    transition: ease-in-out 0.2s;
+    flex: 1 1 1em;
+    padding: 1em 1em;
+    border: none;
+    border-radius: 0.8em;
+    font-size: 1.2em;
+    background-color: #A4CDFF;
+}
+
+.confirm-btn:hover {
+    cursor: pointer;
+    background-color: #C2E7FF;
+    box-shadow: 2px 2px lightgray;
 }

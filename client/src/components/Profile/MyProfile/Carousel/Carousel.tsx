@@ -3,14 +3,13 @@ import styles from "./carousel.module.css"
 import { Buttons } from './Buttons/Buttons'
 import { Indicators } from './Indicators/Indicators'
 import { Slide } from './Slide/Slide'
+import { CarouselPicture } from '../../../../types'
 
-const pictures = [
-  {src : "/image1.jpg", caption : "image 1"},
-  {src : "/image2.jpg", caption : "image 2"},
-  {src : "/image3.jpg", caption : "image 3"},
-]
+type CarouselProps = {
+  pictures : CarouselPicture[]
+}
 
-export function Carousel() {
+export function Carousel({pictures}:CarouselProps ){
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const goToNextSlide = () => setCurrentSlide(currSlide => currSlide + 1)

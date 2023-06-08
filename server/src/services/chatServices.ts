@@ -47,8 +47,6 @@ export const markAsRead = async (usersData: usersData) => {
         {userOne: usersData.selectedUserId, userTwo: usersData.userId}
     ]})
     communicationData?.transcript.forEach((message) => {
-        console.log(message.receiver)
-        console.log(usersData.userId)
         if(!message.read && message.receiver == usersData.userId.toString()){
             message.read = true
         }

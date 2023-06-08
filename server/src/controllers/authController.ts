@@ -3,10 +3,20 @@ const router = express.Router()
 import {registerUser,loginUser, createSession} from "../services/authServices" 
 
 router.post('/register', (req: Request, res: Response) => {
-  console.log(req.body)
   registerUser(req.body)
   .then((newUser) => {
-    let session = createSession(newUser.nickname, newUser.firstName, newUser.lastName, newUser.email, newUser._id, newUser.profilePicture, newUser.description, newUser.interests)
+    let session = createSession(
+      newUser.nickname, 
+      newUser.firstName, 
+      newUser.lastName, 
+      newUser.email, 
+      newUser._id,
+       newUser.profilePicture, 
+       newUser.description, 
+       newUser.interests,
+       newUser.coverPicture,
+       newUser.carouselPictures
+       )
     res.json(session)
 })
   .catch(err => res.status(err.status || 400).json({message: err.message}))

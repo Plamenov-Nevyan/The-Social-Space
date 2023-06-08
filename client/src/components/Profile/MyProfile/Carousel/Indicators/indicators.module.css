@@ -1,7 +1,8 @@
 .indicators-container {
-text-align: center;
- grid-column-start: 1;
- grid-column-end: two;
+       flex: 1 1 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .indicator {
